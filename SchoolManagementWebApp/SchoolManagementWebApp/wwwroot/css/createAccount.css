@@ -1,0 +1,27 @@
+﻿.create-account-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.create-account-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.create-account-form * {
+    font-size: 1.5rem;
+}
+
+.create-account-form input {
+    margin-bottom: 1rem;
+}
+
+.create-account-form h3 {
+    margin: 0;
+    margin-bottom: 0.5rem;
+}
+
+.create-account-form input[type="submit"] {
+    margin: auto;
+}

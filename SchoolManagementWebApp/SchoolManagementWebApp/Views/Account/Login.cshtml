@@ -2,12 +2,18 @@
 	Layout = "~/Views/Shared/_BaseLayout.cshtml";
 }
 
+@*Section for rendering page css file in layout view*@
+@section css {
+	<link rel="stylesheet" type="text/css" href="css/login.css">
+}
+
 <div class="login__container">
-	<form class="login__container-form" action="/" method="get">
+	<h1>Login</h1>
+	<form class="login__container-form" action="" method="get">
 		<label for="useremail">Email:</label>
-		<input type="email" id="useremail" name="useremail"/>
-	    <label for="password"></label>
-		<input type="password" id="password" name="password"/>
-		<input type="submit" value="Submit"/>
+		<input type="email" id="useremail" name="useremail" required/>
+	    <label for="password">Password:</label>
+		<input type="password" id="password" name="password" required/>
+		<input type="submit" value="Login"/>
 	</form>
 </div>

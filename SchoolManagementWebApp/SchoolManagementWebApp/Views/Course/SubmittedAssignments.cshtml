@@ -1,1 +1,37 @@
-﻿Submitted Assignments Page
+﻿@{
+	Layout = "~/Views/Shared/_NavLayout.cshtml";
+}
+
+@*Section for rendering page css file in layout view*@
+@section css {
+	<link rel="stylesheet" type="text/css" href="css/submittedAssignments.css">
+}
+
+<h1 class="title">Submitted Assignments</h1>
+<div class="submitted-assignments-container">
+	<form class="submitted-assignments-form" actrion="" method="get">
+		<input type="text" id="search-input" name="search-input" placeholder="Fill in student id" />
+		<input type="submit" value="Search" />
+	</form>
+	<table class="search-results-table">
+		<tr>
+			<th>Student Id</th>
+			<th>Assignment Id</th>
+			<th>Assignment Download</th>
+			<th>Grade</th>
+		</tr>
+		<tr>
+			<td>Placeholder</td>
+			<td>Placeholder</td>
+			<td><a class="button-link" href="">Download Assignment</a></td>
+			<td><partial name="_GradeFormPartialView"></partial></td>
+		</tr>
+		<tr>
+			<td>Placeholder</td>
+			<td>Placeholder</td>
+			<td><a class="button-link" href="">Download Assignment</a></td>
+			<td><partial name="_GradeFormPartialView"></partial></td>
+		</tr>
+	</table>
+	<a class="button-link" href="">Go Back</a>
+</div>

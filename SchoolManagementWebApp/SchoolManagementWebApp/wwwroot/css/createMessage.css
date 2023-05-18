@@ -1,0 +1,23 @@
+﻿.edit-message-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.edit-message-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-message-form * {
+    font-size: 1.5rem;
+}
+
+.edit-message-buttons-container {
+    display: flex;
+    margin: 1rem 0;
+}
+
+.edit-message-buttons-container a {
+    margin-right: 1rem;
+}

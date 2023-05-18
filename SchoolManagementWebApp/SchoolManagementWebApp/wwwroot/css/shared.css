@@ -1,0 +1,140 @@
+﻿* {
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    display: grid;
+    grid-template-rows: 3.5rem 1fr auto;
+    grid-template-areas:
+        "header"
+        "main"
+        "footer";
+}
+
+/*Utillity*/
+.list-items {
+    list-style: none;
+}
+
+.title {
+    text-align: center;
+    margin: 4rem 0;
+    font-size: 3rem;
+}
+
+.button-link {
+    text-decoration: none;
+    color: white;
+    background-color: #2D3648;
+    font-size: 1.5rem;
+    padding: 1rem;
+    border-radius: 5px;
+    display: block;
+}
+
+.body-nogrid {
+    display: block;
+}
+
+/*Partial Views*/
+/*Course Card*/
+.course-card__container {
+    padding: 4rem;
+    margin: 1rem;
+    border: solid black 2px;
+    border-radius: 20px;
+    background-color: lightgray;
+    text-align: center;
+}
+
+.course-card__header {
+    margin: 0;
+}
+
+.course-card__id {
+    margin: 2rem 0;
+}
+
+/*Grade Form*/
+.grade-form * {
+    font-size: 1.5rem;
+}
+
+/*Navigation*/
+.main-header {
+    grid-area: header;
+    position: fixed;
+    z-index: 100;
+    width: 100vw;
+    border-bottom: solid black 3px;
+}
+
+.main-header-nav {
+    width: 100%;
+    display: flex;
+}
+
+.main-header-nav__items {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-header-nav__item {
+    margin: 1rem;
+}
+
+.main-header-nav__item a {
+    color: black;
+    text-decoration: none;
+    font-size: 2rem;
+    padding: 0 0.5rem;
+}
+
+.main-header-nav__item a:hover,
+.main-header-nav__item a:active {
+    text-decoration: underline;
+}
+
+/*main*/
+main {
+    grid-area: main;
+}
+
+/*footer*/
+.main-footer {
+    grid-area: footer;
+    border-top: solid black 2px;
+}
+
+.main-footer-nav__items {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-footer-nav__item {
+    margin: 0.5rem;
+}
+
+.main-footer-nav__item a {
+    color: black;
+    text-decoration: none;
+    padding: 0 0.8rem;
+}
+
+.main-footer-nav__item a:hover,
+.main-footer-nav__item a:active {
+    text-decoration: underline;
+}

@@ -1,1 +1,20 @@
-﻿Submit Assignment Page
+﻿@{
+    Layout = "~/Views/Shared/_NavLayout.cshtml";
+}
+
+@*Section for rendering page css file in layout view*@
+@section css {
+        <link rel="stylesheet" type="text/css" href="css/submitAssignment.css">
+}
+
+<h1 class="title">Edit Course</h1>
+<div class="submit-assignment-container">
+    <form class="submit-assignment-form" action="" method="post">
+        <label for="assignment-file">Upload Assignment File</label>
+        <input type="file" id="assignment-file" name="assignment-file" required>
+        <div class="submit-assignment-buttons-container">
+            <a class="button-link" href="">Cancel</a>
+            <input type="submit" value="Submit"/>
+        </div>
+    </form>
+</div>

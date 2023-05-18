@@ -1,0 +1,59 @@
+﻿@* Navigation Layout view *@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Placeholder</title>
+    <link rel="stylesheet" type="text/css" href="css/shared.css">
+    @RenderSection("css")
+</head>
+<body>
+    @*Navigation*@
+    <header class="main-header">
+        <nav class="main-header-nav">
+            <ul class="main-header-nav__items list-items">
+                <li class="main-header-nav__item">
+                    <a href="~/home">Home</a>
+                </li>
+                <li class="main-header-nav__item">
+                    <a href="~/searchcourses">Search Courses</a>
+                </li>
+                <li class="main-header-nav__item">
+                    <a href="~/profile">Profile</a>
+                </li>
+                <li class="main-header-nav__item">
+                    <a href="~/createaccount">Create Account</a>
+                </li>
+                <li class="main-header-nav__item">
+                    <a href="~/createcourse">Create Course</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        @RenderBody()
+    </main>
+    <footer class="main-footer">
+        <nav class="main-footer-nav">
+            <ul class="main-footer-nav__items list-items">
+                <li class="main-footer-nav__item">
+                    <a href="~/home">Home</a>
+                </li>
+                <li class="main-footer-nav__item">
+                    <a href="~/searchcourses">Search Courses</a>
+                </li>
+                <li class="main-footer-nav__item">
+                    <a href="~/profile">Profile</a>
+                </li>
+                <li class="main-footer-nav__item">
+                    <a href="~/createaccount">Create Account</a>
+                </li>
+                <li class="main-footer-nav__item">
+                    <a href="~/createcourse">Create Course</a>
+                </li>
+            </ul>
+        </nav>
+    </footer>
+</body>
+</html>

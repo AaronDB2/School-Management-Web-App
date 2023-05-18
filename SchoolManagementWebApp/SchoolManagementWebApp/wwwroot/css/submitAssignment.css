@@ -1,0 +1,23 @@
+﻿.submit-assignment-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.submit-assignment-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.submit-assignment-form * {
+    font-size: 1.5rem;
+}
+
+.submit-assignment-buttons-container {
+    display: flex;
+    margin: 1rem 0;
+}
+
+.submit-assignment-buttons-container a {
+    margin-right: 1rem;
+}

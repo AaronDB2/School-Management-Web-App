@@ -1,0 +1,46 @@
+﻿.course-info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.course-info-id {
+    margin: 0;
+}
+
+.course-info-teacher {
+    margin: 0;
+}
+
+.course-info-message-header {
+    margin-bottom: 0;
+}
+
+.course-info-info-header {
+    margin-bottom: 0;
+}
+
+.course-info-file-container {
+    display: flex;
+}
+
+.course-info-filename {
+    margin: 1rem;
+}
+
+.course-info-buttons-container {
+    display: flex;
+    margin: 2rem;
+}
+
+.course-info-buttons-container a {
+    margin: 0 1rem;
+}
+
+.course-info-grade-container {
+    display: flex;
+}
+
+.course-info-grade-container h2 {
+    margin: 1rem;
+}

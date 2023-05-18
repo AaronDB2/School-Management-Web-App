@@ -1,0 +1,27 @@
+﻿.edit-course-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.edit-course-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-course-form * {
+    font-size: 1.5rem;
+}
+
+#course-info {
+    margin-bottom: 1rem;
+}
+
+.edit-course-buttons-container {
+    display: flex;
+    margin: 1rem 0;
+}
+
+.edit-course-buttons-container a {
+    margin-right: 1rem;
+}

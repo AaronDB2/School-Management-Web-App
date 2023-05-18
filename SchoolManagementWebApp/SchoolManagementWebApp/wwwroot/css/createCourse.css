@@ -1,0 +1,22 @@
+﻿.create-course-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.create-course-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.create-course-form * {
+    font-size: 1.5rem;
+}
+
+.create-course-form input {
+    margin-bottom: 1rem;
+}
+
+.create-course-form input[type="submit"] {
+    margin: auto;
+}
