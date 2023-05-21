@@ -1,5 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using SchoolManagementWebApp.Infrastructure.DbContext;
+
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllersWithViews(); // Adds all controllers as services with views
+// Adds all controllers as services with views
+builder.Services.AddControllersWithViews();
+// Add DbContext as a service
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 var app = builder.Build();
 
 // create application pipeline
