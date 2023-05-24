@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolManagementWebApp.Infrastructure.DbContext;
 
@@ -11,9 +12,11 @@ using SchoolManagementWebApp.Infrastructure.DbContext;
 namespace SchoolManagementWebApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230523174917_Seed-Assignment-Data")]
+    partial class SeedAssignmentData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,13 +38,6 @@ namespace SchoolManagementWebApp.Infrastructure.Migrations
                     b.HasIndex("StudentsId");
 
                     b.ToTable("ApplicationUserCourse");
-
-                    b.HasData(
-                        new
-                        {
-                            CoursesCourseId = new Guid("e5376ece-7e42-4604-a3a2-23d69383e8f2"),
-                            StudentsId = new Guid("d0a86355-484e-48e0-89e5-68735ce5ec3c")
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -367,11 +363,11 @@ namespace SchoolManagementWebApp.Infrastructure.Migrations
                         {
                             Id = new Guid("8c66808c-5a90-47fd-8d25-bbe3f5ac1985"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "eae8d7c4-8e2d-4dce-a078-341e84f40806",
+                            ConcurrencyStamp = "9bc4c9c2-3369-4854-bc05-6ee07f80dbcc",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEPmCshGKbLC116Yo2jDmH2EQit6+xQg9vJa9KmzGE8HrqIyzuwE6JESHv+9MVnlDmA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMC6jioJSjUm5w5MTzjqkaJDPP2PAuh6xXjBHqdSxomH1Wpb1aHZlUrHWsYsxD3XwA==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "Admin"
@@ -380,11 +376,11 @@ namespace SchoolManagementWebApp.Infrastructure.Migrations
                         {
                             Id = new Guid("6e0cbcd5-3807-4813-95d1-930b9a220f27"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "84ed1099-5b54-47f0-919c-f8da647da615",
+                            ConcurrencyStamp = "1140e516-61fa-41dc-8709-0ecbbf321e9b",
                             Email = "teacher@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEM2wd8R6PZqAQeFy4IWQ9BAY1OxAJ9tvVfPFn6O1bzrdsUNSyVu88LMF6h0aODZAvg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM3XFitObb6UaoX8yqGHtn+gxmIheSqTfaMTIV5NSiRdWPnqmGeu+iHqN4myb4He2Q==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "Teacher"
@@ -393,11 +389,11 @@ namespace SchoolManagementWebApp.Infrastructure.Migrations
                         {
                             Id = new Guid("d0a86355-484e-48e0-89e5-68735ce5ec3c"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6b55e008-7348-4cff-bb4c-0709ccc713d6",
+                            ConcurrencyStamp = "d8a9f8fd-038a-47fb-8553-b50d82619285",
                             Email = "student@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEMWtABvG6xd9whY5FH0P8tUToMyWURVjZxPRFqYzHapAZgXAXJRDzf1KQbZVrOX1ag==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGHR/7vb4GWwGKLTL43rHQPji3iIn03u5Olf4wW9i4zmn76STeP2SQ6gmfQmgTUt+A==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "Student"

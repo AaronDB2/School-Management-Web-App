@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolManagementWebApp.Infrastructure.DbContext;
 
@@ -11,9 +12,11 @@ using SchoolManagementWebApp.Infrastructure.DbContext;
 namespace SchoolManagementWebApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230523174005_Seed-Course-data")]
+    partial class SeedCoursedata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,13 +38,6 @@ namespace SchoolManagementWebApp.Infrastructure.Migrations
                     b.HasIndex("StudentsId");
 
                     b.ToTable("ApplicationUserCourse");
-
-                    b.HasData(
-                        new
-                        {
-                            CoursesCourseId = new Guid("e5376ece-7e42-4604-a3a2-23d69383e8f2"),
-                            StudentsId = new Guid("d0a86355-484e-48e0-89e5-68735ce5ec3c")
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -190,16 +186,6 @@ namespace SchoolManagementWebApp.Infrastructure.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("Assignments", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            AssignmentID = new Guid("da641ee7-004a-4543-8402-e5e897349ff5"),
-                            AssignmentFileName = "TestAssignment.pdf",
-                            CourseId = new Guid("e5376ece-7e42-4604-a3a2-23d69383e8f2"),
-                            Grade = 0,
-                            StudentId = new Guid("d0a86355-484e-48e0-89e5-68735ce5ec3c")
-                        });
                 });
 
             modelBuilder.Entity("SchoolManagementWebApp.Core.Domain.Entities.Course", b =>
@@ -367,11 +353,11 @@ namespace SchoolManagementWebApp.Infrastructure.Migrations
                         {
                             Id = new Guid("8c66808c-5a90-47fd-8d25-bbe3f5ac1985"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "eae8d7c4-8e2d-4dce-a078-341e84f40806",
+                            ConcurrencyStamp = "e992d2c3-2844-4599-bbcd-ed70ec482d5c",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEPmCshGKbLC116Yo2jDmH2EQit6+xQg9vJa9KmzGE8HrqIyzuwE6JESHv+9MVnlDmA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJFEM0YwDXMzbyYIEW174z2iPZlecJWbZKTCnOJ1wfx14zt/XZ6+FgDSCjxHBX/pJw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "Admin"
@@ -380,11 +366,11 @@ namespace SchoolManagementWebApp.Infrastructure.Migrations
                         {
                             Id = new Guid("6e0cbcd5-3807-4813-95d1-930b9a220f27"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "84ed1099-5b54-47f0-919c-f8da647da615",
+                            ConcurrencyStamp = "b40455ad-b54d-42b2-96ba-165096c0a147",
                             Email = "teacher@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEM2wd8R6PZqAQeFy4IWQ9BAY1OxAJ9tvVfPFn6O1bzrdsUNSyVu88LMF6h0aODZAvg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHmCkzXrNTVx1nnPVR1YuYTPXEBxkRibcmtPM0Ju+Etsbria0/X9Wg6ZX0056vxR5Q==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "Teacher"
@@ -393,11 +379,11 @@ namespace SchoolManagementWebApp.Infrastructure.Migrations
                         {
                             Id = new Guid("d0a86355-484e-48e0-89e5-68735ce5ec3c"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6b55e008-7348-4cff-bb4c-0709ccc713d6",
+                            ConcurrencyStamp = "725130c8-a4c0-4c05-a68e-151f95090351",
                             Email = "student@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEMWtABvG6xd9whY5FH0P8tUToMyWURVjZxPRFqYzHapAZgXAXJRDzf1KQbZVrOX1ag==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGm24y3RYNHEwNxzwUPti5o2q2Z2sl/+//fA1bFWzFsmq+gCMSwTYAmb7H1RgEUiLw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "Student"
