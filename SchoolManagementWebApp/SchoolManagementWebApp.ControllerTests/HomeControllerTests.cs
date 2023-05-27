@@ -5,14 +5,17 @@ namespace SchoolManagementWebApp.ControllerTests
 {
 	public class HomeControllerTests
 	{
+		private readonly HomeController _homeController;
+		public HomeControllerTests()
+		{
+			_homeController = new HomeController();
+		}
+
 		[Fact]
 		public void Home_ShouldReturnHomeView()
 		{
-			// Arrange
-			HomeController homeController = new HomeController();
-
 			// Act
-			IActionResult result = homeController.Home();
+			IActionResult result = _homeController.Home();
 
 			// Assert if result is of viewResult type
 			ViewResult viewResult = Assert.IsType<ViewResult>(result);

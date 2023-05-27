@@ -17,8 +17,8 @@ namespace SchoolManagementWebApp.Infrastructure.DbContext
 		}
 
 		// Db sets
-		public DbSet<Assignment> Assignments { get; set; }
-		public DbSet<Course> Courses { get; set; }
+		public virtual DbSet<Assignment> Assignments { get; set; }
+		public virtual DbSet<Course> Courses { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{

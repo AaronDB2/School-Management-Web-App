@@ -5,14 +5,16 @@ namespace SchoolManagementWebApp.ControllerTests
 {
     public class AccountControllerTests
     {
+		private readonly AccountController _accountController;
+		public AccountControllerTests() 
+		{ 
+			_accountController = new AccountController();
+		}
         [Fact]
         public void Login_ShouldReturnLoginView()
-        {
-            // Arrange
-            AccountController accountController = new AccountController();
-
+        { 
             // Act
-            IActionResult result = accountController.Login();
+            IActionResult result = _accountController.Login();
 
             // Assert if result is of viewResult type
             ViewResult viewResult = Assert.IsType<ViewResult>(result);
@@ -24,11 +26,8 @@ namespace SchoolManagementWebApp.ControllerTests
 		[Fact]
 		public void Profile_ShouldReturnProfileView()
 		{
-			// Arrange
-			AccountController accountController = new AccountController();
-
 			// Act
-			IActionResult result = accountController.Profile();
+			IActionResult result = _accountController.Profile();
 
 			// Assert if result is of viewResult type
 			ViewResult viewResult = Assert.IsType<ViewResult>(result);
@@ -40,11 +39,8 @@ namespace SchoolManagementWebApp.ControllerTests
 		[Fact]
 		public void CreateAccount_ShouldReturnCreateAccountView()
 		{
-			// Arrange
-			AccountController accountController = new AccountController();
-
 			// Act
-			IActionResult result = accountController.CreateAccount();
+			IActionResult result = _accountController.CreateAccount();
 
 			// Assert if result is of viewResult type
 			ViewResult viewResult = Assert.IsType<ViewResult>(result);
