@@ -6,6 +6,7 @@ namespace SchoolManagementWebApp.UI.Controllers
 	public class HomeController : Controller
 	{
 		// Returns home view for /home endpoint
+		[HttpGet]
 		[Route("/home")]
 		public IActionResult Home()
 		{

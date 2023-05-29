@@ -6,6 +6,7 @@ namespace SchoolManagementWebApp.UI.Controllers
 	public class SearchController : Controller
 	{
 		// Returns search courses view for /searchcourses endpoint
+		[HttpGet]
 		[Route("/searchcourses")]
 		public IActionResult SearchCourses()
 		{

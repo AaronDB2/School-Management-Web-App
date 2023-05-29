@@ -1,18 +1,38 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SchoolManagementWebApp.Core.DTO;
+using SchoolManagementWebApp.Core.ServiceContracts;
 
 namespace SchoolManagementWebApp.UI.Controllers
 {
 	// Controller for all course related actions
 	public class CourseController : Controller
 	{
+		private readonly ICourseAdderService _courseAdderService;
+
+		public CourseController(ICourseAdderService courseAdderService)
+		{
+			_courseAdderService = courseAdderService;
+		}	
+
 		// Returns create courses view for /createcourse endpoint
+		[HttpGet]
 		[Route("/createcourse")]
 		public IActionResult CreateCourse()
 		{
 			return View("CreateCourse");
 		}
 
+		[HttpPost]
+		[Route("/createcourse")]
+		public async Task<CourseResponse> CreateCourse(CourseAddRequest courseAddRequest)
+		{
+			CourseResponse response = await _courseAdderService.AddCourse(courseAddRequest);
+
+			return response;
+		}
+
 		// Returns course view for /course endpoint
+		[HttpGet]
 		[Route("/course")]
 		public IActionResult Course()
 		{
@@ -20,6 +40,7 @@ namespace SchoolManagementWebApp.UI.Controllers
 		}
 
 		// Returns edit course view for /editcourse endpoint
+		[HttpGet]
 		[Route("/editcourse")]
 		public IActionResult EditCourse()
 		{
@@ -27,6 +48,7 @@ namespace SchoolManagementWebApp.UI.Controllers
 		}
 
 		// Returns create message view for /createmessage endpoint
+		[HttpGet]
 		[Route("/createmessage")]
 		public IActionResult CreateMessage()
 		{
@@ -34,6 +56,7 @@ namespace SchoolManagementWebApp.UI.Controllers
 		}
 
 		// Returns submit assignment view for /submitassignment endpoint
+		[HttpGet]
 		[Route("/submitassignment")]
 		public IActionResult SubmitAssignment()
 		{
@@ -41,6 +64,7 @@ namespace SchoolManagementWebApp.UI.Controllers
 		}
 
 		// Returns submitted assignments view for /submittedassignments endpoint
+		[HttpGet]
 		[Route("/submittedassignments")]
 		public IActionResult SubmittedAssignments()
 		{

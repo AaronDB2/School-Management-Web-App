@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using SchoolManagementWebApp.Core.Domain.IdentityEntities;
 using SchoolManagementWebApp.UI.Controllers;
 
 namespace SchoolManagementWebApp.ControllerTests
@@ -37,7 +38,7 @@ namespace SchoolManagementWebApp.ControllerTests
 		}
 
 		[Fact]
-		public void CreateAccount_ShouldReturnCreateAccountView()
+		public void CreateAccount_ShouldReturnCreateAccountViewOnGetRequest()
 		{
 			// Act
 			IActionResult result = _accountController.CreateAccount();
