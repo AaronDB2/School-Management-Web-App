@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SchoolManagementWebApp.Core.DTO;
 using SchoolManagementWebApp.Core.ServiceContracts;
+using System.Runtime.CompilerServices;
 
 namespace SchoolManagementWebApp.UI.Controllers
 {
@@ -10,11 +11,13 @@ namespace SchoolManagementWebApp.UI.Controllers
 		// Services
 		private readonly ICourseAdderService _courseAdderService;
 		private readonly IAssignmentAdderService _assignmentAdderService;
+		private readonly IUpdateGradeService _updateGradeService;
 
-		public CourseController(ICourseAdderService courseAdderService, IAssignmentAdderService assignmentAdderService)
+		public CourseController(ICourseAdderService courseAdderService, IAssignmentAdderService assignmentAdderService, IUpdateGradeService updateGradeService)
 		{
 			_courseAdderService = courseAdderService;
 			_assignmentAdderService = assignmentAdderService;
+			_updateGradeService = updateGradeService;
 		}
 
 		// Returns create courses view for /createcourse endpoint
@@ -81,6 +84,15 @@ namespace SchoolManagementWebApp.UI.Controllers
 		public IActionResult SubmittedAssignments()
 		{
 			return View("SubmittedAssignments");
+		}
+
+		[HttpPost]
+		[Route("/updategrade")]
+		public async Task<AssignmentGradeResponse> UpdateGrade(UpdateGradeRequest updateGradeRequest)
+		{
+			AssignmentGradeResponse response = await _updateGradeService.UpdateAssignmentGrade(updateGradeRequest);
+			
+			return response;
 		}
 	}
 }

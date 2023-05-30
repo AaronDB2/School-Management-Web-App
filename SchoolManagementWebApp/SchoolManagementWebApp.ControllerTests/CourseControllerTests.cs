@@ -16,21 +16,25 @@ namespace SchoolManagementWebApp.ControllerTests
 
 		private readonly ICourseAdderService _courseAdderService;
 		private readonly IAssignmentAdderService _assignmentAdderService;
+		private readonly IUpdateGradeService _updateGradeService;
 
 		private readonly Mock<ICourseAdderService> _courseAdderServiceMock;
 		private readonly Mock<IAssignmentAdderService> _assignmentAdderServiceMock;
+		private readonly Mock<IUpdateGradeService> _updateGradeServiceMock;
 
 		public CourseControllerTests()
 		{
 			// Mock
 			_courseAdderServiceMock = new Mock<ICourseAdderService>();
 			_assignmentAdderServiceMock = new Mock<IAssignmentAdderService>();
+			_updateGradeServiceMock = new Mock<IUpdateGradeService>();
 
 			// Use mock object
 			_courseAdderService = _courseAdderServiceMock.Object;
 			_assignmentAdderService = _assignmentAdderServiceMock.Object;
+			_updateGradeService = _updateGradeServiceMock.Object;
 
-			_courseController = new CourseController(_courseAdderService, _assignmentAdderService);
+			_courseController = new CourseController(_courseAdderService, _assignmentAdderService, _updateGradeService);
 		}
 
 		[Fact]

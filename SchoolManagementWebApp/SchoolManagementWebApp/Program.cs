@@ -18,6 +18,7 @@ builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
 
 builder.Services.AddScoped<ICourseAdderService, CourseAdderService>();
 builder.Services.AddScoped<IAssignmentAdderService, AssignmentAdderService>();
+builder.Services.AddScoped<IUpdateGradeService, UpdateGradeService>();
 
 // Add DbContext as a service
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

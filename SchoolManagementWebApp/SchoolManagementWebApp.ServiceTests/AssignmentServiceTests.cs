@@ -16,6 +16,7 @@ namespace SchoolManagementWebApp.ServiceTests
 	public class AssignmentServiceTests
 	{
 		private readonly IAssignmentAdderService _assignmentAdderService;
+		private readonly IUpdateGradeService _updateGradeService;
 
 		private readonly Mock<IAssignmentRepository> _assignmentsRepositoryMock;
 		private readonly IAssignmentRepository _assignmentsRepository;
@@ -27,6 +28,7 @@ namespace SchoolManagementWebApp.ServiceTests
 
 			// Initialize services
 			_assignmentAdderService = new AssignmentAdderService(_assignmentsRepository);
+			_updateGradeService = new UpdateGradeService(_assignmentsRepository);
 		}
 		[Fact]
 		public async Task AddAssignment_AssignmentNull_ToBeArgumentNullException()
@@ -72,6 +74,59 @@ namespace SchoolManagementWebApp.ServiceTests
 			assignment_response_from_add.AssignmentId.Should().NotBe(Guid.Empty);
 			assignment_response_from_add.AssignmentId.Should().Be(assignmentResponse.AssignmentId);
 
+		}
+
+		[Fact]
+		public async Task UpdateAssignmentGrade_UpdateGradeRequestIsNull_ToBeArgumentNullException()
+		{
+			//Arrange
+			UpdateGradeRequest? updateGradeRequest = null;
+
+			//Act
+			Func<Task> action = async () =>
+			{
+				await _updateGradeService.UpdateAssignmentGrade(updateGradeRequest);
+			};
+
+			//Assert
+			await action.Should().ThrowAsync<ArgumentNullException>();
+		}
+
+		[Fact]
+		public async Task UpdateAssignmentGrade_UpdateGradeRequestDetailsComplete_ToBeSuccessful()
+		{
+			//Arrange
+			UpdateGradeRequest? updateGradeRequest = new UpdateGradeRequest() 
+			{ 
+				AssignmentId = Guid.Parse("DA641EE7-004A-4543-8402-E5E897349FF5"), 
+				Grade = 10 
+			};
+
+			// TODO: Fill in details for testing
+			Assignment assignment = new Assignment()
+			{
+				AssignmentID = Guid.Parse("DA641EE7-004A-4543-8402-E5E897349FF5"),
+				Grade = 10,
+				AssignmentFileName = "TestAssignment.pdf",
+				CourseId = Guid.Parse("E5376ECE-7E42-4604-A3A2-23D69383E8F2"),
+				StudentId = Guid.Parse("D0A86355-484E-48E0-89E5-68735CE5EC3C"),
+			};
+
+			//Mock GetAssignmentByAssignmentId method from AssignmentsRepository 
+			_assignmentsRepositoryMock.Setup
+			 (temp => temp.GetAssignmentByAssignmentId(It.IsAny<Guid>()))
+			 .ReturnsAsync(assignment);
+
+			//Mock UpdateAssignmentGrade method from AssignmentsRepository 
+			_assignmentsRepositoryMock.Setup
+			 (temp => temp.UpdateAssignmentGrade(It.IsAny<Assignment>(), It.IsAny<int>()))
+			 .ReturnsAsync(assignment);
+
+			//Act
+			AssignmentGradeResponse response = await _updateGradeService.UpdateAssignmentGrade(updateGradeRequest);
+
+			//Assert
+			response.Grade.Should().Be(10);
 		}
 	}
 }
