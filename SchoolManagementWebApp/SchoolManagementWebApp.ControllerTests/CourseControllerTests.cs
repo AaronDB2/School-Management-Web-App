@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Moq;
+using SchoolManagementWebApp.Core.ServiceContracts;
 using SchoolManagementWebApp.UI.Controllers;
 using System;
 using System.Collections.Generic;
@@ -11,9 +13,24 @@ namespace SchoolManagementWebApp.ControllerTests
 	public class CourseControllerTests
 	{
 		private readonly CourseController _courseController;
+
+		private readonly ICourseAdderService _courseAdderService;
+		private readonly IAssignmentAdderService _assignmentAdderService;
+
+		private readonly Mock<ICourseAdderService> _courseAdderServiceMock;
+		private readonly Mock<IAssignmentAdderService> _assignmentAdderServiceMock;
+
 		public CourseControllerTests()
 		{
-			_courseController = new CourseController();
+			// Mock
+			_courseAdderServiceMock = new Mock<ICourseAdderService>();
+			_assignmentAdderServiceMock = new Mock<IAssignmentAdderService>();
+
+			// Use mock object
+			_courseAdderService = _courseAdderServiceMock.Object;
+			_assignmentAdderService = _assignmentAdderServiceMock.Object;
+
+			_courseController = new CourseController(_courseAdderService, _assignmentAdderService);
 		}
 
 		[Fact]

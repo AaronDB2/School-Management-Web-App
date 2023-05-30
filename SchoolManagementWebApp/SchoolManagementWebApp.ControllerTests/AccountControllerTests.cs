@@ -1,5 +1,10 @@
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
 using SchoolManagementWebApp.Core.Domain.IdentityEntities;
+using SchoolManagementWebApp.Core.Domain.RepositoryContracts;
+using SchoolManagementWebApp.Infrastructure.Repositories;
 using SchoolManagementWebApp.UI.Controllers;
 
 namespace SchoolManagementWebApp.ControllerTests
@@ -7,9 +12,17 @@ namespace SchoolManagementWebApp.ControllerTests
     public class AccountControllerTests
     {
 		private readonly AccountController _accountController;
-		public AccountControllerTests() 
-		{ 
-			_accountController = new AccountController();
+
+		private readonly Mock<ICoursesRepository> _coursesRepositoryMock;
+
+		private readonly ICoursesRepository _coursesRepository;
+
+		public AccountControllerTests()
+		{
+			_coursesRepositoryMock = new Mock<ICoursesRepository>();
+			_coursesRepository = _coursesRepositoryMock.Object;
+
+			_accountController = new AccountController(_coursesRepository);
 		}
         [Fact]
         public void Login_ShouldReturnLoginView()

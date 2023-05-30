@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SchoolManagementWebApp.Core.Domain.Entities;
 using SchoolManagementWebApp.Core.Domain.IdentityEntities;
+using SchoolManagementWebApp.Core.Domain.RepositoryContracts;
 using SchoolManagementWebApp.Core.DTO;
 
 namespace SchoolManagementWebApp.UI.Controllers
@@ -9,10 +11,17 @@ namespace SchoolManagementWebApp.UI.Controllers
     public class AccountController : Controller
     {
 		private readonly UserManager<ApplicationUser> _userManager;
+		private readonly ICoursesRepository _coursesRepository;
 
-		public AccountController(UserManager<ApplicationUser> userManager)
+		// TODO: mock usermanager in tests if needed. Temporary fix
+		//public AccountController(ICoursesRepository coursesRepository)
+		//{
+
+		//}
+		public AccountController(UserManager<ApplicationUser> userManager, ICoursesRepository coursesRepository)
 		{
 			_userManager = userManager;
+			_coursesRepository = coursesRepository;
 		}
 
 		// Returns login view for /login endpoint
@@ -61,6 +70,39 @@ namespace SchoolManagementWebApp.UI.Controllers
 					//TODO: Add errors to modelstate
 				}
 			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Enroll a student to a course by updating the user
+		/// </summary>
+		/// <param name="enrollStudentRequest">Data for adding student to course</param>
+		/// <returns>Result of the update method</returns>
+		[HttpPost]
+		[Route("/enrollstudent")]
+		public async Task<IdentityResult> EnrollStudent(EnrollStudentRequest enrollStudentRequest)
+		{
+			// Convert student id from Guid to string
+			string studentId = enrollStudentRequest.StudentId.ToString();
+
+			// Find student with given id
+			ApplicationUser user = await _userManager.FindByIdAsync(studentId);
+
+			// TODO: Check when user is null
+
+			// Get course from data store with given course id
+			Course course = await _coursesRepository.GetCourseByCourseId(enrollStudentRequest.CourseId);
+
+			// TODO: Check when course is null
+
+			// Add student to course
+			user.Courses.Add(course);
+
+			IdentityResult result = await _userManager.UpdateAsync(user);
+
+			// TODO: what to do when failed
+			// TODO: redirect to enrolled course
 
 			return result;
 		}

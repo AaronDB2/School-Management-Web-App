@@ -7,12 +7,15 @@ namespace SchoolManagementWebApp.UI.Controllers
 	// Controller for all course related actions
 	public class CourseController : Controller
 	{
+		// Services
 		private readonly ICourseAdderService _courseAdderService;
+		private readonly IAssignmentAdderService _assignmentAdderService;
 
-		public CourseController(ICourseAdderService courseAdderService)
+		public CourseController(ICourseAdderService courseAdderService, IAssignmentAdderService assignmentAdderService)
 		{
 			_courseAdderService = courseAdderService;
-		}	
+			_assignmentAdderService = assignmentAdderService;
+		}
 
 		// Returns create courses view for /createcourse endpoint
 		[HttpGet]
@@ -61,6 +64,15 @@ namespace SchoolManagementWebApp.UI.Controllers
 		public IActionResult SubmitAssignment()
 		{
 			return View("SubmitAssignment");
+		}
+
+		[HttpPost]
+		[Route("/submitassignment")]
+		public async Task<AssignmentResponse> SubmitAssignment(AssignmentAddRequest assignmentAddRequest)
+		{
+			AssignmentResponse response = await _assignmentAdderService.AddAssignment(assignmentAddRequest);
+
+			return response;
 		}
 
 		// Returns submitted assignments view for /submittedassignments endpoint

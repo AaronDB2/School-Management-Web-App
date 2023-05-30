@@ -17,7 +17,7 @@ namespace SchoolManagementWebApp.Core.Domain.Entities
 		public int Grade { get; set; }
 
 		[StringLength(100)]
-		public string? AssignmentFileName { get; set; }
+		public string AssignmentFileName { get; set; }
 
 		//Creates foreign key to Course entity primary key
 		public Guid CourseId { get; set; }
