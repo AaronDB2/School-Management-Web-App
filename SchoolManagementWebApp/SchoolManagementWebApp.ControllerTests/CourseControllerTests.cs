@@ -17,10 +17,14 @@ namespace SchoolManagementWebApp.ControllerTests
 		private readonly ICourseAdderService _courseAdderService;
 		private readonly IAssignmentAdderService _assignmentAdderService;
 		private readonly IUpdateGradeService _updateGradeService;
+		private readonly IEditCourseService _editCourseService;
+		private readonly IEditCourseMessageService _editCourseMessageService;
 
 		private readonly Mock<ICourseAdderService> _courseAdderServiceMock;
 		private readonly Mock<IAssignmentAdderService> _assignmentAdderServiceMock;
 		private readonly Mock<IUpdateGradeService> _updateGradeServiceMock;
+		private readonly Mock<IEditCourseService> _editCourseServiceMock;
+		private readonly Mock<IEditCourseMessageService> _editCourseMessageServiceMock;
 
 		public CourseControllerTests()
 		{
@@ -28,13 +32,22 @@ namespace SchoolManagementWebApp.ControllerTests
 			_courseAdderServiceMock = new Mock<ICourseAdderService>();
 			_assignmentAdderServiceMock = new Mock<IAssignmentAdderService>();
 			_updateGradeServiceMock = new Mock<IUpdateGradeService>();
+			_editCourseServiceMock = new Mock<IEditCourseService>();
+			_editCourseMessageServiceMock = new Mock<IEditCourseMessageService>();
 
 			// Use mock object
 			_courseAdderService = _courseAdderServiceMock.Object;
 			_assignmentAdderService = _assignmentAdderServiceMock.Object;
 			_updateGradeService = _updateGradeServiceMock.Object;
+			_editCourseService = _editCourseServiceMock.Object;
+			_editCourseMessageService = _editCourseMessageServiceMock.Object;
 
-			_courseController = new CourseController(_courseAdderService, _assignmentAdderService, _updateGradeService);
+			_courseController = new CourseController(
+				_courseAdderService, 
+				_assignmentAdderService, 
+				_updateGradeService, 
+				_editCourseService,
+				_editCourseMessageService);
 		}
 
 		[Fact]

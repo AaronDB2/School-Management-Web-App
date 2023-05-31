@@ -40,6 +40,29 @@ namespace SchoolManagementWebApp.UI.Controllers
 			return View("Profile");
 		}
 
+		// Updates password for ApplicationUser entity
+		[HttpPost]
+		[Route("/profile")]
+		public async Task<IdentityResult> Profile(UpdatePasswordRequest updatePasswordRequest)
+		{
+			// Check if updatePasswordRequest is null
+			if (updatePasswordRequest == null)
+			{
+				throw new ArgumentNullException(nameof(updatePasswordRequest));
+			}
+
+			// Convert user id from Guid to string
+			string studentId = updatePasswordRequest.UserId.ToString();
+
+			// Get current user from data store
+			ApplicationUser user = await _userManager.FindByIdAsync(studentId);
+
+
+			IdentityResult result = await _userManager.ChangePasswordAsync(user, updatePasswordRequest.CurrentPassword, updatePasswordRequest.Password);
+
+			return result;
+		}
+
 		// Returns create account view for /createaccount endpoint
 		[HttpGet]
 		[Route("/createaccount")]

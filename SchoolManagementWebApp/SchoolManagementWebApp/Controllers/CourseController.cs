@@ -12,12 +12,22 @@ namespace SchoolManagementWebApp.UI.Controllers
 		private readonly ICourseAdderService _courseAdderService;
 		private readonly IAssignmentAdderService _assignmentAdderService;
 		private readonly IUpdateGradeService _updateGradeService;
+		private readonly IEditCourseService _editCourseService;
+		private readonly IEditCourseMessageService _editCourseMessageService;
 
-		public CourseController(ICourseAdderService courseAdderService, IAssignmentAdderService assignmentAdderService, IUpdateGradeService updateGradeService)
+		public CourseController(
+			ICourseAdderService courseAdderService, 
+			IAssignmentAdderService assignmentAdderService, 
+			IUpdateGradeService updateGradeService, 
+			IEditCourseService editCourseService, 
+			IEditCourseMessageService editCourseMessageService
+			)
 		{
 			_courseAdderService = courseAdderService;
 			_assignmentAdderService = assignmentAdderService;
 			_updateGradeService = updateGradeService;
+			_editCourseService = editCourseService;
+			_editCourseMessageService = editCourseMessageService;
 		}
 
 		// Returns create courses view for /createcourse endpoint
@@ -53,12 +63,30 @@ namespace SchoolManagementWebApp.UI.Controllers
 			return View("EditCourse");
 		}
 
+		[HttpPost]
+		[Route("/editcourse")]
+		public async Task<CourseResponse> EditCourse(EditCourseRequest editCourseRequest)
+		{
+			CourseResponse response = await _editCourseService.EditCourse(editCourseRequest);
+
+			return response;
+		}
+
 		// Returns create message view for /createmessage endpoint
 		[HttpGet]
 		[Route("/createmessage")]
 		public IActionResult CreateMessage()
 		{
 			return View("CreateMessage");
+		}
+
+		[HttpPost]
+		[Route("/createmessage")]
+		public async Task<CourseResponse> CreateMessage(EditCourseMessageRequest editCourseMessageRequest)
+		{
+			CourseResponse response = await _editCourseMessageService.EditCourseMessage(editCourseMessageRequest);
+
+			return response;
 		}
 
 		// Returns submit assignment view for /submitassignment endpoint
