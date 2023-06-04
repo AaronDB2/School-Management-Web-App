@@ -1,5 +1,6 @@
 ﻿@{
 	Layout = "~/Views/Shared/_NavLayout.cshtml";
+	List<CourseResponse> courses = (List<CourseResponse>)ViewData["Courses"];
 }
 
 @*Section for rendering page css file in layout view*@
@@ -9,13 +10,5 @@
 
 <h1 class="title">Your Courses</h1>
 <div class="course-cards__container">
-	<partial name="_CourseCardPartialView"></partial>
-	<partial name="_CourseCardPartialView"></partial>
-	<partial name="_CourseCardPartialView"></partial>
-	<partial name="_CourseCardPartialView"></partial>
-	<partial name="_CourseCardPartialView"></partial>
-	<partial name="_CourseCardPartialView"></partial>
-	<partial name="_CourseCardPartialView"></partial>
-	<partial name="_CourseCardPartialView"></partial>
 	<partial name="_CourseCardPartialView"></partial>
 </div>

@@ -22,4 +22,8 @@
     <ProjectReference Include="..\SchoolManagementWebApp.Infrastructure\SchoolManagementWebApp.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UploadedFiles\" />
+  </ItemGroup>
+
 </Project>

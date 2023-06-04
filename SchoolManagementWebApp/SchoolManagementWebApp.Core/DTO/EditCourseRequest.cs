@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,8 +14,9 @@ namespace SchoolManagementWebApp.Core.DTO
 	{
 		public Guid CourseId { get; set; }
 
+		public string CourseText { get;set; }
+
 		public string CourseFileName { get; set; }
 
-		public string CourseText { get;set; }
-	}
+    }
 }

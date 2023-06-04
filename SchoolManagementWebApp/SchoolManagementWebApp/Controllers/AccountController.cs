@@ -18,6 +18,7 @@ namespace SchoolManagementWebApp.UI.Controllers
 		//{
 
 		//}
+
 		public AccountController(UserManager<ApplicationUser> userManager, ICoursesRepository coursesRepository)
 		{
 			_userManager = userManager;
@@ -29,7 +30,8 @@ namespace SchoolManagementWebApp.UI.Controllers
         [Route("/login")]
         public IActionResult Login()
         {
-            return View("Login");
+			ViewData["pageTitle"] = "Login";
+			return View("Login");
         }
 
 		// Returns profile view for /profile endpoint
@@ -37,18 +39,26 @@ namespace SchoolManagementWebApp.UI.Controllers
 		[Route("/profile")]
 		public IActionResult Profile()
 		{
+			ViewData["pageTitle"] = "Profile";
 			return View("Profile");
 		}
 
 		// Updates password for ApplicationUser entity
 		[HttpPost]
 		[Route("/profile")]
-		public async Task<IdentityResult> Profile(UpdatePasswordRequest updatePasswordRequest)
+		public async Task<IActionResult> Profile(UpdatePasswordRequest updatePasswordRequest)
 		{
 			// Check if updatePasswordRequest is null
 			if (updatePasswordRequest == null)
 			{
 				throw new ArgumentNullException(nameof(updatePasswordRequest));
+			}
+
+			// Check if model state is valid
+			if (!ModelState.IsValid)
+			{
+				ViewBag.Errors = ModelState.Values.SelectMany(temp => temp.Errors).Select(temp => temp.ErrorMessage);
+				return View("Profile");
 			}
 
 			// Convert user id from Guid to string
@@ -60,7 +70,18 @@ namespace SchoolManagementWebApp.UI.Controllers
 
 			IdentityResult result = await _userManager.ChangePasswordAsync(user, updatePasswordRequest.CurrentPassword, updatePasswordRequest.Password);
 
-			return result;
+			// Check if password change was success
+			if(!result.Succeeded)
+			{
+				// Loops over errors but only returns the first error
+				foreach(var error in result.Errors)
+				{
+					ViewBag.Errors = error.Description;
+					return View("Profile");
+				}
+			}
+
+			return RedirectToAction("Profile");
 		}
 
 		// Returns create account view for /createaccount endpoint
@@ -68,13 +89,14 @@ namespace SchoolManagementWebApp.UI.Controllers
 		[Route("/createaccount")]
 		public IActionResult CreateAccount()
 		{
+			ViewData["pageTitle"] = "Create Account";
 			return View("CreateAccount");
 		}
 
 		// Registers a new account based on the information received
 		[HttpPost]
 		[Route("/createaccount")]
-		public async Task<IdentityResult> CreateAccount(RegisterDTO registerDTO)
+		public async Task<IActionResult> CreateAccount(RegisterDTO registerDTO)
 		{
 			// Create new ApplicationUser based on data from RegisterDTO
 			ApplicationUser user = new ApplicationUser();
@@ -83,18 +105,34 @@ namespace SchoolManagementWebApp.UI.Controllers
 
 			IdentityResult result = await _userManager.CreateAsync(user, registerDTO.Password);
 
+			// Checks if new user is made
 			if (result.Succeeded) 
 			{
-				// TODO: do something when success
+				// Give every new user the Student Role
+				IdentityResult resultAddedToRole = await _userManager.AddToRoleAsync(user, "Student");
+
+				//TODO: check results
+
+				if (registerDTO.Admin != null)
+				{
+					resultAddedToRole = await _userManager.AddToRoleAsync(user, "Admin");
+				}
+
+				if (registerDTO.Teacher != null) 
+				{
+					resultAddedToRole = await _userManager.AddToRoleAsync(user, "Teacher");
+				}
+
+				return RedirectToAction("CreateAccount");
 			} else
 			{
-				foreach (IdentityError error in result.Errors) 
-				{
-					//TODO: Add errors to modelstate
-				}
+				//foreach (IdentityError error in result.Errors) 
+				//{
+				//	//TODO: Add errors to modelstate
+				//}
 			}
 
-			return result;
+			return RedirectToAction("CreateAccount");
 		}
 
 		/// <summary>
@@ -104,7 +142,7 @@ namespace SchoolManagementWebApp.UI.Controllers
 		/// <returns>Result of the update method</returns>
 		[HttpPost]
 		[Route("/enrollstudent")]
-		public async Task<IdentityResult> EnrollStudent(EnrollStudentRequest enrollStudentRequest)
+		public async Task<IActionResult> EnrollStudent(EnrollStudentRequest enrollStudentRequest)
 		{
 			// Convert student id from Guid to string
 			string studentId = enrollStudentRequest.StudentId.ToString();
@@ -127,7 +165,7 @@ namespace SchoolManagementWebApp.UI.Controllers
 			// TODO: what to do when failed
 			// TODO: redirect to enrolled course
 
-			return result;
+			return RedirectToAction("Course", "Course", new { courseId = course.CourseId } );
 		}
 	}
 }

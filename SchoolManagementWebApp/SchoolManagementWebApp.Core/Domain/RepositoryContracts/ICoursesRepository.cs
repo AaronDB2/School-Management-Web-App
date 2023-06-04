@@ -39,14 +39,6 @@ namespace SchoolManagementWebApp.Core.Domain.RepositoryContracts
 		Task<Course> AddCourse(Course course);
 
 		/// <summary>
-		/// Enrolls the user into the course. Updates the join table between applicationUser entity and Course entity in data store
-		/// </summary>
-		/// <param name="course">Course object to enroll in</param>
-		/// <param name="user">ApplicationUser object that enrolls</param>
-		/// <returns>Enrolled course</returns>
-		Task<Course> EnrollInCourse(Course course, ApplicationUser user);
-
-		/// <summary>
 		/// Update course data store information. It will update the course file name and course text.
 		/// </summary>
 		/// <param name="course">Course object to update</param>

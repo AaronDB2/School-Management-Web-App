@@ -1,5 +1,12 @@
-﻿<div class="course-card__container">
-	<h1 class="course-card__header">Course Name</h1>
-	<h2 class="course-card__id">Course Id</h2>
-	<a class="button-link" href="">Go to Course</a>
-</div>
+﻿@{
+	List<CourseResponse> courses = (List<CourseResponse>)ViewData["Courses"];
+
+	foreach(CourseResponse course in courses)
+	{
+		<div class="course-card__container">
+			<h1 class="course-card__header">@course.CourseName</h1>
+			<h2 class="course-card__id">@course.CourseId</h2>
+			<a class="button-link" href="~/course/@course.CourseId">Go to Course</a>
+		</div>
+	}
+}

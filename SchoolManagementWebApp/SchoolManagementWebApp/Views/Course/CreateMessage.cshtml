@@ -4,14 +4,15 @@
 
 @*Section for rendering page css file in layout view*@
 @section css {
-        <link rel="stylesheet" type="text/css" href="css/createMessage.css">
+        <link rel="stylesheet" type="text/css" href="~/css/createMessage.css">
 }
 
 <h1 class="title">Create News Message</h1>
 <div class="edit-message-container">
-    <form class="edit-message-form" action="" method="post">
+    <form class="edit-message-form" action="~/createmessage" method="post">
+        <input type="hidden" id="courseid" name="CourseId" value="@ViewData["courseId"]"/>
         <label for="message-info">Message</label>
-        <textarea id="message-info" name="message-info" rows="20" cols="50" placeholder="Fill in message here"></textarea>
+        <textarea id="message-info" name="CourseMessage" rows="20" cols="50" placeholder="Fill in message here"></textarea>
         <div class="edit-message-buttons-container">
             <a class="button-link" href="">Cancel</a>
             <input type="submit" value="Save Changes"/>

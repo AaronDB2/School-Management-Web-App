@@ -9,24 +9,24 @@
 
 <h1 class="title">Create Account</h1>
 <div class="create-account-container">
-	<form class="create-account-form" action="" method="post">
+	<form class="create-account-form" action="~/createaccount" method="post">
 		<label for="username">Username</label>
-		<input type="text" id="username" name="username" required/>
+		<input type="text" id="username" name="Username" required/>
 		<label for="useremail">Email</label>
-		<input type="email" id="useremail" name="useremail" required/>
+		<input type="email" id="useremail" name="Email" required/>
 		<h3>Roles </h3>
 		<div>
-			<input type="checkbox" id="admin" name="admin" value="admin">
+			<input type="checkbox" id="admin" name="Admin" value="admin">
 			<label for="admin">Admin</label>
 		</div>
 		<div>
-			<input type="checkbox" id="teacher" name="teacher" value="teacher">
+			<input type="checkbox" id="teacher" name="Teacher" value="teacher">
 			<label for="teacher">Teacher</label>
 		</div>
 		<label for="password">Password</label>
-		<input type="password" id="password" name="password" required/>
+		<input type="password" id="password" name="Password" required/>
 		<label for="confirmpassword">Confirm Password</label>
-		<input type="password" id="confirmpassword" name="confirmpassword" required />
+		<input type="password" id="confirmpassword" name="Confirmpassword" required />
 		<input type="submit" value="Create Account"/>
 	</form>
 </div>

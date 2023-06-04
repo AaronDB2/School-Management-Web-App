@@ -4,16 +4,18 @@
 
 @*Section for rendering page css file in layout view*@
 @section css {
-        <link rel="stylesheet" type="text/css" href="css/submitAssignment.css">
+        <link rel="stylesheet" type="text/css" href="~/css/submitAssignment.css">
 }
 
 <h1 class="title">Edit Course</h1>
 <div class="submit-assignment-container">
-    <form class="submit-assignment-form" action="" method="post">
+    <form enctype="multipart/form-data" class="submit-assignment-form" action="~/submitassignment" method="post">
+        <input type="hidden" id="student-id" name="StudentId" value="a4c49e3b-17c4-4ad9-2673-08db62bc841a" />
+        <input type="hidden" id="course-id" name="CourseId" value="@ViewData["courseId"]"/>
         <label for="assignment-file">Upload Assignment File</label>
-        <input type="file" id="assignment-file" name="assignment-file" required>
+        <input type="file" id="assignment-file" name="assignmentFile" required>
         <div class="submit-assignment-buttons-container">
-            <a class="button-link" href="">Cancel</a>
+            <a class="button-link" href="~/course/@ViewData["courseId"]">Cancel</a>
             <input type="submit" value="Submit"/>
         </div>
     </form>

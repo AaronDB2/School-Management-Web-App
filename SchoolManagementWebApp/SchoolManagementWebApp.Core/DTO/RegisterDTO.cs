@@ -27,11 +27,13 @@ namespace SchoolManagementWebApp.Core.DTO
 		public string Password { get; set; }
 
 
-		//[Required(ErrorMessage = "Confirm Password can't be blank")]
-		//[DataType(DataType.Password)]
-		//[Compare("Password", ErrorMessage = "Password and confirm password do not match")]
-		//public string ConfirmPassword { get; set; }
+		[Required(ErrorMessage = "Confirm Password can't be blank")]
+		[DataType(DataType.Password)]
+		[Compare("Password", ErrorMessage = "Password and confirm password do not match")]
+		public string ConfirmPassword { get; set; }
 
-		//public UserTypeOptions UserType { get; set; } = UserTypeOptions.User;
+		public string? Admin { get; set; }
+
+		public string? Teacher { get; set; }
 	}
 }

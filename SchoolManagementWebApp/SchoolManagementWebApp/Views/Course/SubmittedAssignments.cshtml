@@ -1,10 +1,11 @@
 ﻿@{
 	Layout = "~/Views/Shared/_NavLayout.cshtml";
+	List<AssignmentResponse> assignments = (List<AssignmentResponse>)ViewData["assignments"];
 }
 
 @*Section for rendering page css file in layout view*@
 @section css {
-	<link rel="stylesheet" type="text/css" href="css/submittedAssignments.css">
+	<link rel="stylesheet" type="text/css" href="~/css/submittedAssignments.css">
 }
 
 <h1 class="title">Submitted Assignments</h1>
@@ -20,18 +21,22 @@
 			<th>Assignment Download</th>
 			<th>Grade</th>
 		</tr>
-		<tr>
-			<td>Placeholder</td>
-			<td>Placeholder</td>
-			<td><a class="button-link" href="">Download Assignment</a></td>
-			<td><partial name="_GradeFormPartialView"></partial></td>
-		</tr>
-		<tr>
-			<td>Placeholder</td>
-			<td>Placeholder</td>
-			<td><a class="button-link" href="">Download Assignment</a></td>
-			<td><partial name="_GradeFormPartialView"></partial></td>
-		</tr>
+		@{
+			foreach(AssignmentResponse assignment in assignments)
+			{
+				Dictionary<string, string> partialGradeData = new Dictionary<string, string>();
+				partialGradeData.Add("Grade", assignment.Grade.ToString());
+				partialGradeData.Add("AssignmentId", assignment.AssignmentId.ToString());
+				partialGradeData.Add("CourseId", @ViewData["courseId"].ToString());
+
+				<tr>
+					<td>@assignment.StudentId</td>
+					<td>@assignment.AssignmentId</td>
+					<td><a class="button-link" href="">Download Assignment</a></td>
+					<td>@await Html.PartialAsync("_GradeFormPartialView", partialGradeData)</td>
+				</tr>
+			}
+		}
 	</table>
-	<a class="button-link" href="">Go Back</a>
+	<a class="button-link" href="~/course/@ViewData["courseId"]">Go Back</a>
 </div>

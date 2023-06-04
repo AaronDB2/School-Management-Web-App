@@ -1,4 +1,5 @@
-﻿<form class="grade-form" action="" method="post">
-	<input type="text" name="grade" id="grade" placeholder="0" />
+﻿<form class="grade-form" action="~/updategrade/@Model["AssignmentId"]" method="post">
+	<input type="hidden" id="course=id" name="courseId" value="@Model["CourseId"]" />
+	<input type="text" name="grade" id="grade" placeholder="@Model["Grade"]"/>
 	<input type="submit" value="Submit">
 </form>

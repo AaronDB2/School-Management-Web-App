@@ -1,5 +1,6 @@
 ﻿@{
 	Layout = "~/Views/Shared/_NavLayout.cshtml";
+	List<CourseResponse> courses = (List<CourseResponse>)ViewData["Courses"];
 }
 
 @*Section for rendering page css file in layout view*@
@@ -9,7 +10,7 @@
 
 <h1 class="title">Courses</h1>
 <div class="search-courses-container">
-	<form class="search-courses-form" actrion="" method="get">
+	<form class="search-courses-form" action="" method="get">
 		<label for="course-attribute">Search By: </label>
 		<select id="course-attribute" name="course-attribute">
 			<option value="placeholder1">Placeholder1</option>
@@ -26,17 +27,22 @@
 		<th>Course Id</th>
 		<th></th>
 	  </tr>
-	  <tr>
-		<td>Placeholder</td>
-		<td>Placeholder</td>
-		<td>Placeholder</td>
-		<td><a class="button-link" href="">Enroll</a></td>
-	  </tr>
-	  <tr>
-		<td>Placeholder</td>
-		<td>Placeholder</td>
-		<td>Placeholder</td>
-		<td><a class="button-link" href="">Enroll</a></td>
-	  </tr>
+	  @{
+		foreach(CourseResponse course in courses)
+		{
+			<tr>
+				<td>@course.CourseName</td>
+				<td>@course.TeacherId</td>
+				<td>@course.CourseId</td>
+				<td>
+					<form action="~/enrollstudent" method="post">
+						<input type="hidden" id="course-id" name="CourseId" value=@course.CourseId>
+							<input type="hidden" id="student-id" name="StudentId" value="a4c49e3b-17c4-4ad9-2673-08db62bc841a">
+						<input type="submit" value="Enroll">
+					</form>
+				</td>
+			</tr>
+		}
+	  }
 	</table>
 </div>

@@ -1,32 +1,34 @@
 ﻿@{
     Layout = "~/Views/Shared/_NavLayout.cshtml";
+    CourseResponse course = (CourseResponse)ViewData["Course"];
 }
 
 @*Section for rendering page css file in layout view*@ 
 @section css {
-    <link rel="stylesheet" type="text/css" href="css/course.css">
+    <link rel="stylesheet" type="text/css" href="~/css/course.css">
 }
 
-<h1 class="title" > Course Name Placeholder</h1 >
+<h1 class="title" > @course.CourseName </h1 >
 <div class="course-info-container">
-    <h3 class="course-info-id">Course Id: Placeholder</h3>
-    <h3 class="course-info-teacher" >Teacher: Placeholder</h3 >
+    <h3 class="course-info-id">Course Id: @course.CourseId </h3>
+    <h3 class="course-info-teacher" >Teacher Id: @course.TeacherId </h3 >
     <h2 class="course-info-message-header" >News</h2 >
-    <p class="course-info-message">dfsagfsdgfdsghsde fgsdgfdshrte hjfd dgfhgfdhdsfghfdghgdf dfg hdfghdfg hfdgh gfd hgfd hgfdh df nfusdabfdskhabfhisadbf sdafsdahkubfsadhgi sgahdi fgshaf gsav fas</p>
+    <p class="course-info-message">@course.CourseMessage</p>
     <h2 class="course-info-info-header" >Info</h2 >
-    <p class="course-info-info">dfsagfsdgfdsghsde fgsdgfdshrte hjfd dgfhgfdhdsfghfdghgdf dfg hdfghdfg hfdgh gfd hgfd hgfdh df nfusdabfdskhabfhisadbf sdafsdahkubfsadhgi sgahdi fgshaf gsav fas</p>
+    <p class="course-info-info">@course.CourseText</p>
     <div class="course-info-file-container">
-        <h2 class="course-info-filename">Placeholder course filename for download</h2>
+        <h2 class="course-info-filename">@course.CourseFileName</h2>
         <a class="button-link" href="">Download File</a>
     </div>
     <div class="course-info-buttons-container">
-        <a class="button-link" href="">Edit Course</a>
-        <a class="button-link" href="">Create Message</a>
-        <a class="button-link" href="">View Submitted Assignments / Submit Assignment</a>
+        <a class="button-link" href="~/editcourse/@course.CourseId">Edit Course</a>
+        <a class="button-link" href="~/createmessage/@course.CourseId">Create Message</a>
+        <a class="button-link" href="~/submitassignment/@course.CourseId">Submit Assignment</a>
+        <a class="button-link" href="~/submittedassignments/@course.CourseId">View Submitted Assignments</a>
     </div>
     <div class="course-info-grade-container">
         <h2 class="course-info-grade">Placeholder Grade</h2>
-        <h2 class="course-info-assignment-filename">Placeholder Assignment Filename</h2>
+        <h2 class="course-info-assignment-filename">Placeholder assignmentfile name</h2>
         <a class="button-link" href="">Download File</a>
     </div>
 </div>

@@ -29,26 +29,6 @@ namespace SchoolManagementWebApp.Infrastructure.Repositories
 			return course;
 		}
 
-
-		// Usermanager?
-		public Task<Course> EnrollInCourse(Course course, ApplicationUser user)
-		{
-			// Find matching course
-			//Course? matchingCourse = await _db.Courses.FirstOrDefaultAsync(temp => temp.CourseId == course.CourseId);
-			//// TODO: Usermanager logic for finding matching user
-
-			//if (matchingCourse == null)
-			//{
-			//	return course;
-			//}
-
-			//matchingCourse.Students.Add(user);
-			//await _db.SaveChangesAsync();
-			//return matchingCourse;
-
-			throw new NotImplementedException();
-		}
-
 		public async Task<List<Course>> GetAllCourses()
 		{
 			return await _db.Courses.ToListAsync();

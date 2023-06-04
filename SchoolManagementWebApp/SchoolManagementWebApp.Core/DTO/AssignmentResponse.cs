@@ -13,5 +13,9 @@ namespace SchoolManagementWebApp.Core.DTO
 	{
 		public Guid AssignmentId { get; set; }
 
-	}
+        public Guid StudentId { get; set; }
+
+		public int Grade { get; set; }
+
+    }
 }

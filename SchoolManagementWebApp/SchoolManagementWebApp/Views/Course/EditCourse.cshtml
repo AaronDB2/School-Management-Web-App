@@ -1,19 +1,21 @@
 ﻿@{
     Layout = "~/Views/Shared/_NavLayout.cshtml";
+    Guid id = (Guid)ViewData["CourseId"];
 }
 
 @*Section for rendering page css file in layout view*@
 @section css {
-    <link rel="stylesheet" type="text/css" href="css/editCourse.css">
+    <link rel="stylesheet" type="text/css" href="~/css/editCourse.css">
 }
 
 <h1 class="title">Edit Course</h1>
 <div class="edit-course-container">
-    <form class="edit-course-form" action="" method="post">
+    <form enctype="multipart/form-data" class="edit-course-form" action="~/editcourse" method="post">
+        <input type="hidden" id="courseid" name="CourseId" value="@id" />
         <label for="course-info">Course Info</label>
-        <textarea id="course-info" name="course-info" rows="20" cols="100" placeholder="Fill in text here"></textarea>
+        <textarea id="course-info" name="CourseText" rows="20" cols="100" placeholder="Fill in text here"></textarea>
         <label for="course-file">Upload Course File</label>
-        <input type="file" id="course-file" name="course-file">
+        <input type="file" id="course-file" name="formFile">
         <div class="edit-course-buttons-container">
             <a class="button-link" href="">Cancel</a>
             <input type="submit" value="Save Changes"/>

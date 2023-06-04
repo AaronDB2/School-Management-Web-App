@@ -12,6 +12,9 @@ namespace SchoolManagementWebApp.Core.DTO
 	public class UpdateGradeRequest
 	{
 		public int Grade { get; set; }
+
 		public Guid AssignmentId { get; set; }
+
+		public Guid CourseId { get; set; }
 	}
 }
