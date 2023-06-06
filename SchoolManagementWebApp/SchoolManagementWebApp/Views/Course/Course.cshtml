@@ -24,7 +24,7 @@
     <p class="course-info-info">@course.CourseText</p>
     <div class="course-info-file-container">
         <h2 class="course-info-filename">@course.CourseFileName</h2>
-        <a class="button-link" href="">Download File</a>
+        <a class="button-link" href="~/download/@course.CourseFileName">Download File</a>
     </div>
     <div class="course-info-buttons-container">
         @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
@@ -45,7 +45,7 @@
         <div class="course-info-grade-container">
             <h2 class="course-info-grade">@assignment.Grade</h2>
             <h2 class="course-info-assignment-filename">@assignment.AssignmentFileName</h2>
-            <a class="button-link" href="">Download File</a>
+            <a class="button-link" href="~/download/@assignment.AssignmentFileName">Download File</a>
         </div>
     }
 </div>

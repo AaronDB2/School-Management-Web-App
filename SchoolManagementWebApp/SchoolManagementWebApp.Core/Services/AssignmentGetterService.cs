@@ -33,6 +33,7 @@ namespace SchoolManagementWebApp.Core.Services
                     AssignmentId = assignment.AssignmentID,
                     StudentId = assignment.StudentId,
                     Grade = assignment.Grade,
+                    AssignmentFileName= assignment.AssignmentFileName,
                 };
                 response.Add(assignmentResponse);
             }

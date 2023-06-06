@@ -5,6 +5,7 @@ using SchoolManagementWebApp.Core.Domain.Entities;
 using SchoolManagementWebApp.Core.Domain.IdentityEntities;
 using SchoolManagementWebApp.Core.Domain.RepositoryContracts;
 using SchoolManagementWebApp.Core.DTO;
+using System.Security.Claims;
 
 namespace SchoolManagementWebApp.UI.Controllers
 {
@@ -85,9 +86,15 @@ namespace SchoolManagementWebApp.UI.Controllers
         [HttpGet]
 		[Route("/profile")]
 		[Authorize(Roles = "Admin,Student,Teacher")]
-		public IActionResult Profile()
+		public async Task<IActionResult> Profile()
 		{
-			ViewData["pageTitle"] = "Profile";
+            // Get the logged in userId
+            string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+			ApplicationUser user = await _userManager.FindByIdAsync(userId);
+
+			ViewData["user"] = user;
+            ViewData["pageTitle"] = "Profile";
 			return View("Profile");
 		}
 

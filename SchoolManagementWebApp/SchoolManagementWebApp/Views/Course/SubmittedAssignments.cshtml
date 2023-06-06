@@ -33,7 +33,7 @@
 				<tr>
 					<td>@assignment.StudentId</td>
 					<td>@assignment.AssignmentId</td>
-					<td><a class="button-link" href="">Download Assignment</a></td>
+					<td><a class="button-link" href="~/download/@assignment.AssignmentFileName">Download Assignment</a></td>
 					<td>@await Html.PartialAsync("_GradeFormPartialView", partialGradeData)</td>
 				</tr>
 			}

@@ -17,5 +17,7 @@ namespace SchoolManagementWebApp.Core.DTO
 
 		public int Grade { get; set; }
 
+		public string AssignmentFileName { get; set;}
+
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagementWebApp.Core.DTO;
 using SchoolManagementWebApp.Core.ServiceContracts;
+using System.Text;
 
 namespace SchoolManagementWebApp.UI.Controllers
 {
@@ -28,6 +29,17 @@ namespace SchoolManagementWebApp.UI.Controllers
 			ViewData["Courses"] = courses;
 
 			return View("Home");
+		}
+
+		[HttpGet]
+		[Route("/download/{filename}")]
+		[Authorize(Roles = "Admin,Student,Teacher")]
+		public async Task<IActionResult> Download(string fileName)
+		{
+			var path = Path.Combine(Directory.GetCurrentDirectory(), "UploadedFiles", fileName);
+			var stream = new FileStream(path, FileMode.Open);
+
+			return File(stream, "application/octet-stream", fileName);
 		}
 	}
 }
