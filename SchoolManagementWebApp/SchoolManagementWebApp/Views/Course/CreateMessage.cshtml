@@ -1,5 +1,6 @@
 ﻿@{
     Layout = "~/Views/Shared/_NavLayout.cshtml";
+    ViewBag.CurrentUrl = String.Format("~/createmessage/{0}", ViewData["courseId"]);
 }
 
 @*Section for rendering page css file in layout view*@
@@ -14,7 +15,7 @@
         <label for="message-info">Message</label>
         <textarea id="message-info" name="CourseMessage" rows="20" cols="50" placeholder="Fill in message here"></textarea>
         <div class="edit-message-buttons-container">
-            <a class="button-link" href="">Cancel</a>
+            <a class="button-link" href="~/course/@ViewData["courseId"]">Cancel</a>
             <input type="submit" value="Save Changes"/>
         </div>
     </form>

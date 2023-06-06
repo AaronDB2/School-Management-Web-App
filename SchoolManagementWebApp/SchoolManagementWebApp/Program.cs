@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -37,11 +38,25 @@ builder.Services
 	.AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid>>()
 	.AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, Guid>>();
 
+// Configure authorization rules
+builder.Services.AddAuthorization(options => 
+{
+	options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+});
+
+// Url for login view when user is not authenticated
+builder.Services.ConfigureApplicationCookie(options =>
+{
+	options.LoginPath = "/login";
+});
+
 var app = builder.Build();
 
 // create application pipeline
 app.UseStaticFiles(); // Middleware for serving static files
 app.UseRouting(); // Middleware for routing
-app.MapControllers(); // Middleware for enabling controller routing
+app.UseAuthentication(); // Middleware for reading authentication cookie
+app.UseAuthorization(); // Middleware for authorization. Validates access permissions of the user
+app.MapControllers(); // Middleware for Executing filter pipeline
 
 app.Run();

@@ -1,9 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SchoolManagementWebApp.Core.Domain.Entities;
+using SchoolManagementWebApp.Core.Domain.IdentityEntities;
 using SchoolManagementWebApp.Core.DTO;
 using SchoolManagementWebApp.Core.ServiceContracts;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Security.Claims;
 
 namespace SchoolManagementWebApp.UI.Controllers
 {
@@ -18,6 +23,7 @@ namespace SchoolManagementWebApp.UI.Controllers
 		private readonly IEditCourseMessageService _editCourseMessageService;
 		private readonly ICourseGetterService _courseGetterService;
         private readonly IAssignmentGetterService _assignmentGetterService;
+		private readonly UserManager<ApplicationUser> _userManager;
 
         public CourseController(
 			ICourseAdderService courseAdderService, 
@@ -26,7 +32,8 @@ namespace SchoolManagementWebApp.UI.Controllers
 			IEditCourseService editCourseService, 
 			IEditCourseMessageService editCourseMessageService,
 			ICourseGetterService courseGetterService,
-			IAssignmentGetterService assignmentGetterService
+			IAssignmentGetterService assignmentGetterService,
+			UserManager<ApplicationUser> userManager
 			)
 		{
 			_courseAdderService = courseAdderService;
@@ -36,21 +43,23 @@ namespace SchoolManagementWebApp.UI.Controllers
 			_editCourseMessageService = editCourseMessageService;
 			_courseGetterService = courseGetterService;
 			_assignmentGetterService = assignmentGetterService;
+			_userManager = userManager;
 		}
 
 		// Returns create courses view for /createcourse endpoint
 		[HttpGet]
 		[Route("/createcourse")]
-		public IActionResult CreateCourse()
+        [Authorize(Roles = "Admin")]
+        public IActionResult CreateCourse()
 		{
-			ViewData["pageTitle"] = "Create Course";
-
+			ViewData["pageTitle"] = "Create Course";		
 			return View("CreateCourse");
 		}
 
 		[HttpPost]
 		[Route("/createcourse")]
-		public async Task<IActionResult> CreateCourse(CourseAddRequest courseAddRequest)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CreateCourse(CourseAddRequest courseAddRequest)
 		{
 			CourseResponse response = await _courseAdderService.AddCourse(courseAddRequest);
 
@@ -60,11 +69,27 @@ namespace SchoolManagementWebApp.UI.Controllers
 		// Returns course view for /course endpoint
 		[HttpGet]
 		[Route("/course/{courseId}")]
-		public async Task<IActionResult> Course(Guid courseId)
+        [Authorize(Roles = "Admin,Student,Teacher")]
+        public async Task<IActionResult> Course(Guid courseId)
 		{
-			CourseResponse  response = await _courseGetterService.GetCourseByCourseId(courseId);
+			// Get the logged in userId
+            Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-			ViewData["pageTitle"] = response.CourseName;
+            CourseResponse  response = await _courseGetterService.GetCourseByCourseId(courseId);
+
+			if (response.Assignments != null)
+			{
+                // Get the assignment of the user
+                foreach (Assignment assignment in response.Assignments)
+                {
+                    if (assignment.StudentId == userId)
+                    {
+                        ViewData["userAssignment"] = assignment;
+                    }
+                }
+            }
+
+            ViewData["pageTitle"] = response.CourseName;
 			ViewData["Course"] = response;
 
 			return View("Course");
@@ -73,7 +98,8 @@ namespace SchoolManagementWebApp.UI.Controllers
 		// Returns edit course view for /editcourse endpoint
 		[HttpGet]
 		[Route("/editcourse/{courseId}")]
-		public IActionResult EditCourse(Guid courseId)
+        [Authorize(Roles = "Admin,Student,Teacher")]
+        public IActionResult EditCourse(Guid courseId)
 		{
 			ViewData["pageTitle"] = "Edit Course";
 			ViewData["CourseId"] = courseId;
@@ -83,7 +109,8 @@ namespace SchoolManagementWebApp.UI.Controllers
 
 		[HttpPost]
 		[Route("/editcourse")]
-		public async Task<IActionResult> EditCourse(EditCourseRequest editCourseRequest, IFormFile formFile)
+        [Authorize(Roles = "Admin,Teacher")]
+        public async Task<IActionResult> EditCourse(EditCourseRequest editCourseRequest, IFormFile formFile)
 		{
 			// Read the file and upload it to the UploadedFiles folder
             string path = "";
@@ -119,7 +146,8 @@ namespace SchoolManagementWebApp.UI.Controllers
 		// Returns create message view for /createmessage endpoint
 		[HttpGet]
 		[Route("/createmessage/{courseId}")]
-		public IActionResult CreateMessage(Guid courseId)
+        [Authorize(Roles = "Admin,Teacher")]
+        public IActionResult CreateMessage(Guid courseId)
 		{
 			ViewData["pageTitle"] = "Create Course Message";
             ViewData["courseId"] = courseId;
@@ -130,7 +158,8 @@ namespace SchoolManagementWebApp.UI.Controllers
 
 		[HttpPost]
 		[Route("/createmessage")]
-		public async Task<IActionResult> CreateMessage(EditCourseMessageRequest editCourseMessageRequest)
+        [Authorize(Roles = "Admin,Teacher")]
+        public async Task<IActionResult> CreateMessage(EditCourseMessageRequest editCourseMessageRequest)
 		{
 			CourseResponse response = await _editCourseMessageService.EditCourseMessage(editCourseMessageRequest);
 
@@ -140,7 +169,8 @@ namespace SchoolManagementWebApp.UI.Controllers
 		// Returns submit assignment view for /submitassignment endpoint
 		[HttpGet]
 		[Route("/submitassignment/{courseId}")]
-		public IActionResult SubmitAssignment(Guid courseId)
+        [Authorize(Roles = "Admin,Student,Teacher")]
+        public IActionResult SubmitAssignment(Guid courseId)
 		{
 			ViewData["pageTitle"] = "Submit Assignment";
             ViewData["courseId"] = courseId;
@@ -150,8 +180,14 @@ namespace SchoolManagementWebApp.UI.Controllers
 
 		[HttpPost]
 		[Route("/submitassignment")]
-		public async Task<IActionResult> SubmitAssignment(AssignmentAddRequest assignmentAddRequest, IFormFile assignmentFile)
+        [Authorize(Roles = "Admin,Student,Teacher")]
+        public async Task<IActionResult> SubmitAssignment(AssignmentAddRequest assignmentAddRequest, IFormFile assignmentFile)
 		{
+            // Get the logged in userId
+            Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+			assignmentAddRequest.StudentId = userId;
+
             // Read the file and upload it to the UploadedFiles folder
             string path = "";
 			try
@@ -185,7 +221,8 @@ namespace SchoolManagementWebApp.UI.Controllers
 		// Returns submitted assignments view for /submittedassignments endpoint
 		[HttpGet]
 		[Route("/submittedassignments/{courseId}")]
-		public async Task<IActionResult> SubmittedAssignments(Guid courseId)
+        [Authorize(Roles = "Admin,Teacher")]
+        public async Task<IActionResult> SubmittedAssignments(Guid courseId)
 		{
 			List<AssignmentResponse> assignments = await _assignmentGetterService.GetAssignmentsByCourseId(courseId);
 
@@ -198,7 +235,8 @@ namespace SchoolManagementWebApp.UI.Controllers
 
 		[HttpPost]
 		[Route("/updategrade/{assignmentId}")]
-		public async Task<IActionResult> UpdateGrade(UpdateGradeRequest updateGradeRequest)
+        [Authorize(Roles = "Admin,Teacher")]
+        public async Task<IActionResult> UpdateGrade(UpdateGradeRequest updateGradeRequest)
 		{
 			AssignmentGradeResponse response = await _updateGradeService.UpdateAssignmentGrade(updateGradeRequest);
 			

@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_NavLayout.cshtml";
     Guid id = (Guid)ViewData["CourseId"];
+    ViewBag.CurrentUrl = String.Format("~/editcourse/{0}", id);
 }
 
 @*Section for rendering page css file in layout view*@
@@ -17,7 +18,7 @@
         <label for="course-file">Upload Course File</label>
         <input type="file" id="course-file" name="formFile">
         <div class="edit-course-buttons-container">
-            <a class="button-link" href="">Cancel</a>
+            <a class="button-link" href="~/course/@id">Cancel</a>
             <input type="submit" value="Save Changes"/>
         </div>
     </form>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagementWebApp.Core.Domain.Entities;
 using SchoolManagementWebApp.Core.Domain.IdentityEntities;
@@ -11,6 +12,7 @@ namespace SchoolManagementWebApp.UI.Controllers
     public class AccountController : Controller
     {
 		private readonly UserManager<ApplicationUser> _userManager;
+		private readonly SignInManager<ApplicationUser> _signInManager;
 		private readonly ICoursesRepository _coursesRepository;
 
 		// TODO: mock usermanager in tests if needed. Temporary fix
@@ -19,24 +21,70 @@ namespace SchoolManagementWebApp.UI.Controllers
 
 		//}
 
-		public AccountController(UserManager<ApplicationUser> userManager, ICoursesRepository coursesRepository)
+		public AccountController(UserManager<ApplicationUser> userManager, ICoursesRepository coursesRepository, SignInManager<ApplicationUser> signInManager)
 		{
 			_userManager = userManager;
 			_coursesRepository = coursesRepository;
+			_signInManager = signInManager;
 		}
 
 		// Returns login view for /login endpoint
 		[HttpGet]
         [Route("/login")]
+		[AllowAnonymous]
         public IActionResult Login()
         {
 			ViewData["pageTitle"] = "Login";
 			return View("Login");
         }
 
-		// Returns profile view for /profile endpoint
-		[HttpGet]
+        // Returns login view for /login endpoint
+        [HttpPost]
+        [Route("/login")]
+		[AllowAnonymous]
+        public async Task<IActionResult> Login(LoginDTO loginDTO, string? ReturnUrl)
+        {
+            ViewData["pageTitle"] = "Login";
+
+            // Check model state
+            if (!ModelState.IsValid)
+			{
+                ViewBag.Errors = ModelState.Values.SelectMany(temp => temp.Errors).Select(temp => temp.ErrorMessage);
+                return View("Login", loginDTO);
+            }
+
+			// Find if there is a user with the given email
+			var user = await _userManager.FindByEmailAsync(loginDTO.Email);
+
+			if (user == null)
+			{
+				ModelState.AddModelError("Login", "Invalid email or password");
+				return View("Login");
+			}
+
+			// Try to sign in with user email and password
+			var result = await _signInManager.PasswordSignInAsync(user.UserName, loginDTO.Password, isPersistent: false, lockoutOnFailure: false);
+
+			// If password and email are correct go to home screen
+			if(result.Succeeded)
+			{
+				// Check if there is a return url and that it is a local url
+				if(!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
+				{
+					return LocalRedirect(ReturnUrl);
+				}
+				return RedirectToAction("Home", "Home");
+			} else
+			{
+				ModelState.AddModelError("Login", "Invalid email or password");
+				return View("Login");
+			}
+        }
+
+        // Returns profile view for /profile endpoint
+        [HttpGet]
 		[Route("/profile")]
+		[Authorize(Roles = "Admin,Student,Teacher")]
 		public IActionResult Profile()
 		{
 			ViewData["pageTitle"] = "Profile";
@@ -46,7 +94,8 @@ namespace SchoolManagementWebApp.UI.Controllers
 		// Updates password for ApplicationUser entity
 		[HttpPost]
 		[Route("/profile")]
-		public async Task<IActionResult> Profile(UpdatePasswordRequest updatePasswordRequest)
+        [Authorize(Roles = "Admin,Student,Teacher")]
+        public async Task<IActionResult> Profile(UpdatePasswordRequest updatePasswordRequest)
 		{
 			// Check if updatePasswordRequest is null
 			if (updatePasswordRequest == null)
@@ -87,7 +136,8 @@ namespace SchoolManagementWebApp.UI.Controllers
 		// Returns create account view for /createaccount endpoint
 		[HttpGet]
 		[Route("/createaccount")]
-		public IActionResult CreateAccount()
+        [Authorize(Roles = "Admin")]
+        public IActionResult CreateAccount()
 		{
 			ViewData["pageTitle"] = "Create Account";
 			return View("CreateAccount");
@@ -96,7 +146,8 @@ namespace SchoolManagementWebApp.UI.Controllers
 		// Registers a new account based on the information received
 		[HttpPost]
 		[Route("/createaccount")]
-		public async Task<IActionResult> CreateAccount(RegisterDTO registerDTO)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CreateAccount(RegisterDTO registerDTO)
 		{
 			// Create new ApplicationUser based on data from RegisterDTO
 			ApplicationUser user = new ApplicationUser();
@@ -142,7 +193,8 @@ namespace SchoolManagementWebApp.UI.Controllers
 		/// <returns>Result of the update method</returns>
 		[HttpPost]
 		[Route("/enrollstudent")]
-		public async Task<IActionResult> EnrollStudent(EnrollStudentRequest enrollStudentRequest)
+        [Authorize(Roles = "Admin,Student,Teacher")]
+        public async Task<IActionResult> EnrollStudent(EnrollStudentRequest enrollStudentRequest)
 		{
 			// Convert student id from Guid to string
 			string studentId = enrollStudentRequest.StudentId.ToString();

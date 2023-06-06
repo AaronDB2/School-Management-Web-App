@@ -37,7 +37,7 @@ namespace SchoolManagementWebApp.Infrastructure.Repositories
 
 		public async Task<Course?> GetCourseByCourseId(Guid courseId)
 		{
-			return await _db.Courses.FirstOrDefaultAsync(course => course.CourseId == courseId);
+			return await _db.Courses.Include(course => course.Assignments).FirstOrDefaultAsync(course => course.CourseId == courseId);
 		}
 
 		public async Task<List<Course>> GetFilterdCourses(Expression<Func<Course, bool>> predicate)

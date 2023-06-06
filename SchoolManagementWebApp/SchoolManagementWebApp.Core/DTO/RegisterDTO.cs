@@ -18,6 +18,7 @@ namespace SchoolManagementWebApp.Core.DTO
 
 		[Required(ErrorMessage = "Email can't be blank")]
 		[EmailAddress(ErrorMessage = "Email should be in a proper email address format")]
+		[DataType(DataType.EmailAddress)]
 		//[Remote(action: "IsEmailAlreadyRegistered", controller: "Account", ErrorMessage = "Email is already is use")]
 		public string Email { get; set; }
 

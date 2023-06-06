@@ -1,6 +1,7 @@
 ﻿@{
 	Layout = "~/Views/Shared/_NavLayout.cshtml";
 	List<CourseResponse> courses = (List<CourseResponse>)ViewData["Courses"];
+	ViewBag.CurrentUrl = "~/searchcourses";
 }
 
 @*Section for rendering page css file in layout view*@

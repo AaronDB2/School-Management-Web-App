@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SchoolManagementWebApp.Core.DTO;
 using SchoolManagementWebApp.Core.ServiceContracts;
 
@@ -17,7 +18,8 @@ namespace SchoolManagementWebApp.UI.Controllers
 		// Returns home view for /home endpoint
 		[HttpGet]
 		[Route("/home")]
-		public async Task<IActionResult> Home()
+        [Authorize(Roles = "Admin,Student,Teacher")]
+        public async Task<IActionResult> Home()
 		{
 			// TODO show only user enrolled courses
 			List<CourseResponse> courses = await _courseGetterService.GetAllCourses();

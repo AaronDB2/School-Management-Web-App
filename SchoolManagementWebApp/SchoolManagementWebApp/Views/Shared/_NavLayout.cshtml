@@ -13,21 +13,69 @@
     <header class="main-header">
         <nav class="main-header-nav">
             <ul class="main-header-nav__items list-items">
-                <li class="main-header-nav__item">
-                    <a href="~/home">Home</a>
-                </li>
-                <li class="main-header-nav__item">
-                    <a href="~/searchcourses">Search Courses</a>
-                </li>
-                <li class="main-header-nav__item">
-                    <a href="~/profile">Profile</a>
-                </li>
-                <li class="main-header-nav__item">
-                    <a href="~/createaccount">Create Account</a>
-                </li>
-                <li class="main-header-nav__item">
-                    <a href="~/createcourse">Create Course</a>
-                </li>
+                @*Set active links based on current url*@
+                @if (ViewBag.CurrentUrl == "~/home")
+                {
+                    <li class="main-header-nav__item nav-link-active">
+                        <a href="~/home">Home</a>
+                    </li>
+                } else
+                {
+                    <li class="main-header-nav__item">
+                        <a href="~/home">Home</a>
+                    </li>
+                }
+                @if (ViewBag.CurrentUrl == "~/searchcourses")
+                {
+                    <li class="main-header-nav__item nav-link-active">
+                        <a href="~/searchcourses">Search Courses</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="main-header-nav__item">
+                        <a href="~/searchcourses">Search Courses</a>
+                    </li>
+                }
+                @if (ViewBag.CurrentUrl == "~/profile")
+                {
+                    <li class="main-header-nav__item nav-link-active">
+                        <a href="~/profile">Profile</a>
+                    </li>
+                }
+                else
+                {
+                     <li class="main-header-nav__item">
+                        <a href="~/profile">Profile</a>
+                    </li>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    @if (ViewBag.CurrentUrl == "~/createaccount")
+                    {
+                        <li class="main-header-nav__item nav-link-active">
+                            <a href="~/createaccount">Create Account</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="main-header-nav__item">
+                            <a href="~/createaccount">Create Account</a>
+                        </li>
+                    }
+                    @if (ViewBag.CurrentUrl == "~/createcourse")
+                    {
+                        <li class="main-header-nav__item nav-link-active">
+                            <a href="~/createcourse">Create Course</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="main-header-nav__item">
+                            <a href="~/createcourse">Create Course</a>
+                        </li>
+                    }
+                }
             </ul>
         </nav>
     </header>
@@ -46,12 +94,15 @@
                 <li class="main-footer-nav__item">
                     <a href="~/profile">Profile</a>
                 </li>
-                <li class="main-footer-nav__item">
-                    <a href="~/createaccount">Create Account</a>
-                </li>
-                <li class="main-footer-nav__item">
-                    <a href="~/createcourse">Create Course</a>
-                </li>
+                @if(User.IsInRole("Admin"))
+                {
+                    <li class="main-footer-nav__item">
+                        <a href="~/createaccount">Create Account</a>
+                    </li>
+                    <li class="main-footer-nav__item">
+                        <a href="~/createcourse">Create Course</a>
+                    </li>
+                }
             </ul>
         </nav>
     </footer>

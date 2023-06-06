@@ -1,6 +1,12 @@
 ﻿@{
     Layout = "~/Views/Shared/_NavLayout.cshtml";
     CourseResponse course = (CourseResponse)ViewData["Course"];
+    ViewBag.CurrentUrl = String.Format("~/course/{0}", course.CourseId);
+    Assignment assignment = null;
+    if (ViewData["userAssignment"] != null)
+    {
+        assignment = (Assignment)ViewData["userAssignment"];
+    }
 }
 
 @*Section for rendering page css file in layout view*@ 
@@ -21,15 +27,26 @@
         <a class="button-link" href="">Download File</a>
     </div>
     <div class="course-info-buttons-container">
-        <a class="button-link" href="~/editcourse/@course.CourseId">Edit Course</a>
-        <a class="button-link" href="~/createmessage/@course.CourseId">Create Message</a>
-        <a class="button-link" href="~/submitassignment/@course.CourseId">Submit Assignment</a>
-        <a class="button-link" href="~/submittedassignments/@course.CourseId">View Submitted Assignments</a>
+        @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+        {
+            <a class="button-link" href="~/editcourse/@course.CourseId">Edit Course</a>
+            <a class="button-link" href="~/createmessage/@course.CourseId">Create Message</a>
+            <a class="button-link" href="~/submittedassignments/@course.CourseId">View Submitted Assignments</a>
+        } else
+        {
+            if (assignment == null)
+            {
+                <a class="button-link" href="~/submitassignment/@course.CourseId">Submit Assignment</a>
+            }
+        }
     </div>
-    <div class="course-info-grade-container">
-        <h2 class="course-info-grade">Placeholder Grade</h2>
-        <h2 class="course-info-assignment-filename">Placeholder assignmentfile name</h2>
-        <a class="button-link" href="">Download File</a>
-    </div>
+    @if(assignment != null)
+    {
+        <div class="course-info-grade-container">
+            <h2 class="course-info-grade">@assignment.Grade</h2>
+            <h2 class="course-info-assignment-filename">@assignment.AssignmentFileName</h2>
+            <a class="button-link" href="">Download File</a>
+        </div>
+    }
 </div>
 

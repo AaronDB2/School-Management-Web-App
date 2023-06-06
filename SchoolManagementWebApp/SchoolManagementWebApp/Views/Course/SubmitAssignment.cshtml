@@ -1,5 +1,6 @@
 ﻿@{
     Layout = "~/Views/Shared/_NavLayout.cshtml";
+    ViewBag.CurrentUrl = String.Format("~/assignment/{0}", ViewData["courseId"]);
 }
 
 @*Section for rendering page css file in layout view*@
@@ -10,7 +11,6 @@
 <h1 class="title">Edit Course</h1>
 <div class="submit-assignment-container">
     <form enctype="multipart/form-data" class="submit-assignment-form" action="~/submitassignment" method="post">
-        <input type="hidden" id="student-id" name="StudentId" value="a4c49e3b-17c4-4ad9-2673-08db62bc841a" />
         <input type="hidden" id="course-id" name="CourseId" value="@ViewData["courseId"]"/>
         <label for="assignment-file">Upload Assignment File</label>
         <input type="file" id="assignment-file" name="assignmentFile" required>
