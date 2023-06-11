@@ -24,5 +24,13 @@ namespace SchoolManagementWebApp.Core.ServiceContracts
 		/// </summary>
 		/// <returns>List of all the courses as RourseResponse</returns>
 		Task<List<CourseResponse>> GetAllCourses();
+
+		/// <summary>
+		/// Gets the courses that matches the search criteria
+		/// </summary>
+		/// <param name="searchBy">Value to search by</param>
+		/// <param name="searchString">Search value</param>
+		/// <returns>List of courses as CourseResponse that matched the search criteria</returns>
+		Task<List<CourseResponse>> GetFilterdCourses(string searchBy, string? searchString);
 	}
 }

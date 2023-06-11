@@ -5,6 +5,7 @@ using SchoolManagementWebApp.Infrastructure.DbContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,6 +27,12 @@ namespace SchoolManagementWebApp.Infrastructure.Repositories
 			return assignment;
 		}
 
+		public async Task<List<Assignment>> GetAllAssignments()
+		{
+			return await _db.Assignments.ToListAsync();
+
+		}
+
 		public async Task<Assignment> GetAssignmentByAssignmentId(Guid assignmentId)
 		{
 			return await _db.Assignments.FirstOrDefaultAsync(assignment => assignment.AssignmentID == assignmentId);
@@ -39,6 +46,13 @@ namespace SchoolManagementWebApp.Infrastructure.Repositories
 		public async Task<List<Assignment>> GetAssignmentsByCourseId(Guid courseId)
 		{
 			return await _db.Assignments.Where(assignment => assignment.CourseId == courseId).ToListAsync();
+		}
+
+		public async Task<List<Assignment>> GetFilterdAssignments(Expression<Func<Assignment, bool>> predicate)
+		{
+			return await _db.Assignments
+			.Where(predicate)
+			.ToListAsync();
 		}
 
 		public async Task<Assignment> UpdateAssignmentGrade(Assignment assignment, int grade)

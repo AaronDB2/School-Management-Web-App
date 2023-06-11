@@ -1,7 +1,7 @@
 ﻿@{
 	Layout = "~/Views/Shared/_NavLayout.cshtml";
 	List<AssignmentResponse> assignments = (List<AssignmentResponse>)ViewData["assignments"];
-	ViewBag.CurrentUrl = String.Format("~/submitassignment/{0}", @ViewData["courseId"]);
+	ViewBag.CurrentUrl = String.Format("~/submittedassignments/{0}", @ViewData["courseId"]);
 }
 
 @*Section for rendering page css file in layout view*@
@@ -11,8 +11,8 @@
 
 <h1 class="title">Submitted Assignments</h1>
 <div class="submitted-assignments-container">
-	<form class="submitted-assignments-form" actrion="" method="get">
-		<input type="text" id="search-input" name="search-input" placeholder="Fill in student id" />
+	<form class="submitted-assignments-form" actrion="~/submittedassignments/{@ViewData["courseId"]}" method="get">
+		<input type="text" id="search-input" name="searchString" placeholder="Fill in student id" />
 		<input type="submit" value="Search" />
 	</form>
 	<table class="search-results-table">

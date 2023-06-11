@@ -18,5 +18,13 @@ namespace SchoolManagementWebApp.Core.ServiceContracts
         /// <param name="courseId">Course id to search assignments for</param>
         /// <returns>List of all the assignments that match the given course id</returns>
         Task<List<AssignmentResponse>> GetAssignmentsByCourseId(Guid courseId);
-    }
+
+		/// <summary>
+		/// Gets the assignments that matches the search criteria
+		/// </summary>
+		/// <param name="searchBy">Value to search by</param>
+		/// <param name="searchString">Search value</param>
+		/// <returns>List of assignments as AssignmentResponse that matched the search criteria</returns>
+		Task<List<AssignmentResponse>> GetFilterdAssignments(string searchBy, string? searchString);
+	}
 }

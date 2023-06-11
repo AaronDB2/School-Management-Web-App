@@ -6,6 +6,12 @@ namespace SchoolManagementWebApp.Core.Domain.RepositoryContracts
 	public interface IAssignmentRepository
 	{
 		/// <summary>
+		/// Returns all assignments from the data store
+		/// </summary>
+		/// <returns>List of all the assignments from the data store</returns>
+		Task<List<Assignment>> GetAllAssignments();
+
+		/// <summary>
 		/// Gets assignment from data store that matches the assignment id
 		/// </summary>
 		/// <param name="assignment">assignment id to search</param>
@@ -25,6 +31,14 @@ namespace SchoolManagementWebApp.Core.Domain.RepositoryContracts
 		/// <param name="courseId">Course id (guid) to search</param>
 		/// <returns>List of assignment objects that matches the given course id</returns>
 		Task<List<Assignment>> GetAssignmentsByCourseId(Guid courseId);
+
+		/// <summary>
+		/// Returns all assignment objects from data store based on given expression
+		/// </summary>
+		/// <param name="predicate">LINQ expression to check</param>
+		/// <returns>List of assignment objects from data store that match the given expression</returns>
+		Task<List<Assignment>> GetFilterdAssignments(Expression<Func<Assignment, bool>> predicate);
+		
 
 		/// <summary>
 		/// Adds a new assignment object to the data store

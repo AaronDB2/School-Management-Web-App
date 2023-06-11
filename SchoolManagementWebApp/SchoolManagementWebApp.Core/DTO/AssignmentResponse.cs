@@ -19,5 +19,7 @@ namespace SchoolManagementWebApp.Core.DTO
 
 		public string AssignmentFileName { get; set;}
 
+		public Guid CourseId { get; set; }
+
     }
 }

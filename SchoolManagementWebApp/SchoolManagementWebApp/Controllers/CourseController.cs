@@ -221,14 +221,28 @@ namespace SchoolManagementWebApp.UI.Controllers
 		// Returns submitted assignments view for /submittedassignments endpoint
 		[HttpGet]
 		[Route("/submittedassignments/{courseId}")]
-        [Authorize(Roles = "Admin,Teacher")]
-        public async Task<IActionResult> SubmittedAssignments(Guid courseId)
+		[Authorize(Roles = "Admin,Teacher")]
+		public async Task<IActionResult> SubmittedAssignments(Guid courseId, string searchString, string searchBy = "StudentId")
 		{
-			List<AssignmentResponse> assignments = await _assignmentGetterService.GetAssignmentsByCourseId(courseId);
+			if (searchString == null)
+			{
+				searchBy = null;
+			}
+
+			List<AssignmentResponse> courseAssignments = new List<AssignmentResponse>();
+			List<AssignmentResponse> assignments = await _assignmentGetterService.GetFilterdAssignments(searchBy, searchString);
+
+			foreach (var assignment in assignments)
+			{
+				if (assignment.CourseId == courseId)
+				{
+					courseAssignments.Add(assignment);
+				}
+			}
 
             ViewData["pageTitle"] = "Submitted Assignments";
             ViewData["courseId"] = courseId;
-            ViewData["assignments"] = assignments;
+            ViewData["assignments"] = courseAssignments;
 
             return View("SubmittedAssignments");
 		}

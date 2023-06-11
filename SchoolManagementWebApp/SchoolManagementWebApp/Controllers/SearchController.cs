@@ -14,14 +14,20 @@ namespace SchoolManagementWebApp.UI.Controllers
 		{
 			_courseGetterService = courseGetterService;
 		}
-			
-		// Returns search courses view for /searchcourses endpoint
+
 		[HttpGet]
 		[Route("/searchcourses")]
-        [Authorize(Roles = "Admin,Student,Teacher")]
-        public async Task<IActionResult> SearchCourses()
+		[Authorize(Roles = "Admin,Student,Teacher")]
+		public async Task<IActionResult> SearchCourses(string searchBy, string searchString)
 		{
-			List<CourseResponse> data = await _courseGetterService.GetAllCourses();
+			// Check if searchBy or searchString are not null
+			if (searchBy == null || searchString == null) 
+			{
+				searchString = string.Empty;
+				searchBy = string.Empty;
+			}
+
+			List<CourseResponse> data = await _courseGetterService.GetFilterdCourses(searchBy, searchString);
 
 			ViewData["pageTitle"] = "Search Courses";
 			ViewData["Courses"] = data;

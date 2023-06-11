@@ -40,5 +40,35 @@ namespace SchoolManagementWebApp.Core.Services
 
             return response;
         }
-    }
+
+		public async Task<List<AssignmentResponse>> GetFilterdAssignments(string searchBy, string? searchString)
+		{
+			List<Assignment> assignments = searchBy switch
+			{
+				nameof(AssignmentResponse.StudentId) =>
+				 await _assignmentRepository.GetFilterdAssignments(temp =>
+				 temp.StudentId.ToString().Contains(searchString)),
+
+				_ => await _assignmentRepository.GetAllAssignments()
+			};
+
+			List<AssignmentResponse> response = new List<AssignmentResponse>();
+
+			foreach (Assignment assignment in assignments)
+			{
+				AssignmentResponse assignmentResponse = new AssignmentResponse()
+				{
+                    AssignmentFileName = assignment.AssignmentFileName,
+                    AssignmentId = assignment.AssignmentID,
+                    Grade = assignment.Grade,
+                    StudentId = assignment.StudentId,
+                    CourseId = assignment.CourseId,
+				};
+
+				response.Add(assignmentResponse);
+			}
+
+			return response;
+		}
+	}
 }

@@ -11,14 +11,14 @@
 
 <h1 class="title">Courses</h1>
 <div class="search-courses-container">
-	<form class="search-courses-form" action="" method="get">
+	<form class="search-courses-form" action="~/searchcourses" method="get">
 		<label for="course-attribute">Search By: </label>
-		<select id="course-attribute" name="course-attribute">
-			<option value="placeholder1">Placeholder1</option>
-			<option value="placeholder2">Placeholder2</option>
-			<option value="placeholder3">Placeholder3</option>
+		<select id="course-attribute" name="searchBy">
+			<option value="CourseName">Course Name</option>
+			<option value="CourseId">Course Id</option>
+			<option value="TeacherId">Teacher Id</option>
 		</select>
-		<input type="text" id="search-input" name="search-input" placeholder="Fill in search value"/>
+		<input type="text" id="search-input" name="searchString" placeholder="Fill in search value"/>
 		<input type="submit" value="Search"/>
 	</form>
 	<table class="search-results-table">

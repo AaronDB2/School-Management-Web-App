@@ -70,5 +70,47 @@ namespace SchoolManagementWebApp.Core.Services
 
 			return response;
 		}
+
+		public async Task<List<CourseResponse>> GetFilterdCourses(string searchBy, string? searchString)
+		{
+			List<Course> courses = searchBy switch
+			{
+				nameof(CourseResponse.CourseId) =>
+				 await _coursesRepository.GetFilterdCourses(temp =>
+				 temp.CourseId.ToString().Contains(searchString)),
+
+				nameof(CourseResponse.CourseName) =>
+				 await _coursesRepository.GetFilterdCourses(temp =>
+				 temp.CourseName.Contains(searchString)),
+
+			    nameof(CourseResponse.TeacherId) =>
+				 await _coursesRepository.GetFilterdCourses(temp =>
+				 temp.TeacherId.ToString().Contains(searchString)),
+
+				_ => await _coursesRepository.GetAllCourses()
+			};
+			// TODO: INCLUDE TEACHERID?
+
+			List <CourseResponse> response = new List<CourseResponse>();
+			
+			foreach (Course course in courses)
+			{
+				CourseResponse courseResponse = new CourseResponse()
+				{
+					CourseId = course.CourseId,
+					CourseName = course.CourseName,
+					Students = course.Students,
+					CourseText = course.CourseText,
+					CourseMessage = course.Message,
+					CourseFileName = course.CourseFileName,
+					Assignments = course.Assignments,
+					TeacherId= course.TeacherId,
+				};
+
+				response.Add(courseResponse);
+			}
+
+			return response;
+		}
 	}
 }
