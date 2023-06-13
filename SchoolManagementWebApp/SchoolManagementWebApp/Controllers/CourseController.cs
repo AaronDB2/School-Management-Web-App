@@ -25,7 +25,9 @@ namespace SchoolManagementWebApp.UI.Controllers
         private readonly IAssignmentGetterService _assignmentGetterService;
 		private readonly UserManager<ApplicationUser> _userManager;
 
-        public CourseController(
+		public Func<string> GetUserId { get; set; }
+
+		public CourseController(
 			ICourseAdderService courseAdderService, 
 			IAssignmentAdderService assignmentAdderService, 
 			IUpdateGradeService updateGradeService, 
@@ -44,6 +46,8 @@ namespace SchoolManagementWebApp.UI.Controllers
 			_courseGetterService = courseGetterService;
 			_assignmentGetterService = assignmentGetterService;
 			_userManager = userManager;
+
+			GetUserId = () => User.FindFirstValue(ClaimTypes.NameIdentifier);
 		}
 
 		// Returns create courses view for /createcourse endpoint
@@ -73,9 +77,10 @@ namespace SchoolManagementWebApp.UI.Controllers
         public async Task<IActionResult> Course(Guid courseId)
 		{
 			// Get the logged in userId
-            Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+			//Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+			Guid userId = Guid.Parse(GetUserId());
 
-            CourseResponse  response = await _courseGetterService.GetCourseByCourseId(courseId);
+			CourseResponse response = await _courseGetterService.GetCourseByCourseId(courseId);
 
 			if (response.Assignments != null)
 			{
@@ -184,7 +189,8 @@ namespace SchoolManagementWebApp.UI.Controllers
         public async Task<IActionResult> SubmitAssignment(AssignmentAddRequest assignmentAddRequest, IFormFile assignmentFile)
 		{
             // Get the logged in userId
-            Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            //Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+			Guid userId = Guid.Parse(GetUserId());
 
 			assignmentAddRequest.StudentId = userId;
 

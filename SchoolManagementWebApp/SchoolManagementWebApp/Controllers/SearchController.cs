@@ -20,7 +20,7 @@ namespace SchoolManagementWebApp.UI.Controllers
 		[Authorize(Roles = "Admin,Student,Teacher")]
 		public async Task<IActionResult> SearchCourses(string searchBy, string searchString)
 		{
-			// Check if searchBy or searchString are not null
+			// Check if searchBy or searchString are null
 			if (searchBy == null || searchString == null) 
 			{
 				searchString = string.Empty;

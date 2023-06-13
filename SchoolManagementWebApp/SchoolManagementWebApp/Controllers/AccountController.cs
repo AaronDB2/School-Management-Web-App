@@ -14,6 +14,9 @@ namespace SchoolManagementWebApp.UI.Controllers
     {
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
+
+		public Func<string> GetUserId { get; set; }
+
 		private readonly ICoursesRepository _coursesRepository;
 
 		// TODO: mock usermanager in tests if needed. Temporary fix
@@ -27,6 +30,8 @@ namespace SchoolManagementWebApp.UI.Controllers
 			_userManager = userManager;
 			_coursesRepository = coursesRepository;
 			_signInManager = signInManager;
+
+			GetUserId = () => User.FindFirstValue(ClaimTypes.NameIdentifier);
 		}
 
 		// Returns login view for /login endpoint
@@ -89,7 +94,8 @@ namespace SchoolManagementWebApp.UI.Controllers
 		public async Task<IActionResult> Profile()
 		{
             // Get the logged in userId
-            string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var userId = GetUserId();
+            //string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
 			ApplicationUser user = await _userManager.FindByIdAsync(userId);
 
