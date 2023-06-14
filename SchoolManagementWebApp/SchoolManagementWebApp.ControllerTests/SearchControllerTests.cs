@@ -23,6 +23,9 @@ namespace SchoolManagementWebApp.ControllerTests
 			_courseGetterService = _courseGetterServiceMock.Object;
 
 			_searchController = new SearchController(_courseGetterService);
+
+			// Sets the GetUserId method to always return a userId. Did this so that i dont need to mock principle claim stuff
+			_searchController.GetUserId = () => "FEDDD9F4-1C6C-43B2-B9D3-672AB82CB2C6";
 		}
 
 		[Fact]

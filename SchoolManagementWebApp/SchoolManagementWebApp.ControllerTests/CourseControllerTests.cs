@@ -22,6 +22,7 @@ namespace SchoolManagementWebApp.ControllerTests
 		private readonly ICourseGetterService _courseGetterService;
 		private readonly IAssignmentGetterService _assignmentGetterService;
 		private readonly UserManager<ApplicationUser> _userManager;
+		private readonly IFileService _fileService;
 
 		private readonly Mock<ICourseAdderService> _courseAdderServiceMock;
 		private readonly Mock<IAssignmentAdderService> _assignmentAdderServiceMock;
@@ -31,6 +32,7 @@ namespace SchoolManagementWebApp.ControllerTests
 		private readonly Mock<ICourseGetterService> _courseGetterServiceMock;
 		private readonly Mock<IAssignmentGetterService> _assignmentGetterServiceMock;
 		private readonly Mock<UserManager<ApplicationUser>> _userManagerMock;
+		private readonly Mock<IFileService> _fileServiceMock;
 
 		public CourseControllerTests()
 		{
@@ -45,6 +47,7 @@ namespace SchoolManagementWebApp.ControllerTests
 			_courseGetterServiceMock = new Mock<ICourseGetterService>();
 			_assignmentGetterServiceMock = new Mock<IAssignmentGetterService>();
 			_userManagerMock = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
+			_fileServiceMock = new Mock<IFileService>();
 
 			// Use mock object
 			_courseAdderService = _courseAdderServiceMock.Object;
@@ -55,6 +58,7 @@ namespace SchoolManagementWebApp.ControllerTests
 			_courseGetterService = _courseGetterServiceMock.Object;
 			_assignmentGetterService = _assignmentGetterServiceMock.Object;
 			_userManager = _userManagerMock.Object;
+			_fileService = _fileServiceMock.Object;
 
 			_courseController = new CourseController(
 				_courseAdderService, 
@@ -64,7 +68,8 @@ namespace SchoolManagementWebApp.ControllerTests
 				_editCourseMessageService,
 				_courseGetterService,
 				_assignmentGetterService,
-				_userManager);
+				_userManager,
+				_fileService);
 
 			// Sets the GetUserId method to always return a userId. Did this so that i dont need to mock principle claim stuff
 			_courseController.GetUserId = () => "FEDDD9F4-1C6C-43B2-B9D3-672AB82CB2C6";

@@ -24,6 +24,7 @@ builder.Services.AddScoped<IEditCourseService, EditCourseService>();
 builder.Services.AddScoped<IEditCourseMessageService, EditCourseMessageService>();
 builder.Services.AddScoped<ICourseGetterService, CourseGetterService>();
 builder.Services.AddScoped<IAssignmentGetterService, AssignmentGetterService>();
+builder.Services.AddScoped<IFileService, FileService>();
 
 // Add DbContext as a service
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

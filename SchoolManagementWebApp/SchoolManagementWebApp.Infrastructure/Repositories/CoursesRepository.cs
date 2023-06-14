@@ -31,7 +31,7 @@ namespace SchoolManagementWebApp.Infrastructure.Repositories
 
 		public async Task<List<Course>> GetAllCourses()
 		{
-			return await _db.Courses.ToListAsync();
+			return await _db.Courses.Include(cours => cours.Students).ToListAsync();
 
 		}
 

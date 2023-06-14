@@ -12,18 +12,25 @@ namespace SchoolManagementWebApp.ControllerTests
 		private readonly HomeController _homeController;
 
 		private readonly ICourseGetterService _courseGetterService;
+		private readonly IFileService _fileService;
 
 		private readonly Mock<ICourseGetterService> _courseGetterServiceMock;
+		private readonly Mock<IFileService> _fileServiceMock;
 
 		public HomeControllerTests()
 		{
 			// Mock
-			_courseGetterServiceMock= new Mock<ICourseGetterService>();
+			_courseGetterServiceMock = new Mock<ICourseGetterService>();
+			_fileServiceMock = new Mock<IFileService>();
 
 			// Use mock object
 			_courseGetterService = _courseGetterServiceMock.Object;
+			_fileService = _fileServiceMock.Object;
 
-			_homeController = new HomeController(_courseGetterService);
+			_homeController = new HomeController(_courseGetterService, _fileService);
+
+			// Sets the GetUserId method to always return a userId. Did this so that i dont need to mock principle claim stuff
+			_homeController.GetUserId = () => "FEDDD9F4-1C6C-43B2-B9D3-672AB82CB2C6";
 		}
 
 		[Fact]

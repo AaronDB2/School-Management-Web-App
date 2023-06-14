@@ -63,7 +63,22 @@ namespace SchoolManagementWebApp.RepositoryTests
 			Assert.Equal(returnedAssignment, addedAssignment);
 		}
 
-		[Fact]
+        [Fact]
+        public async Task GetAllAssignments_ShouldReturnAllAssignmentsFromDataStore()
+        {
+            var returnedAssignments = await _assignmentRepository.GetAllAssignments();
+
+            // Check if returnedAssignments is of IEnumerable type
+            Assert.IsAssignableFrom<IEnumerable<Assignment>>(returnedAssignments);
+
+            // Check if returnedAssignments and assignmentsInitialData are the same size
+            Assert.Equal(returnedAssignments.Count, assignmentInitialData.Count);
+
+            // Check if returnedAssignments and assignmentInitialData first assignment in collection have the same Id
+            Assert.Equal(returnedAssignments[0].AssignmentID, assignmentInitialData[0].AssignmentID);
+        }
+
+        [Fact]
 		public async Task GetAssignmentByAssignmentId_ShouldReturnAssignmentWithCorrectAssignmentIdFromDataStore()
 		{
 			var returnedAssignment = await _assignmentRepository.GetAssignmentByAssignmentId(Guid.Parse("9E5EC7DB-F1EA-4921-B77B-04CE9DE6CF9A"));

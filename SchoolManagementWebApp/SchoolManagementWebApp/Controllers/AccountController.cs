@@ -19,12 +19,6 @@ namespace SchoolManagementWebApp.UI.Controllers
 
 		private readonly ICoursesRepository _coursesRepository;
 
-		// TODO: mock usermanager in tests if needed. Temporary fix
-		//public AccountController(ICoursesRepository coursesRepository)
-		//{
-
-		//}
-
 		public AccountController(UserManager<ApplicationUser> userManager, ICoursesRepository coursesRepository, SignInManager<ApplicationUser> signInManager)
 		{
 			_userManager = userManager;

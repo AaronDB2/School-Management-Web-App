@@ -6,6 +6,7 @@ using SchoolManagementWebApp.Core.Domain.Entities;
 using SchoolManagementWebApp.Core.Domain.IdentityEntities;
 using SchoolManagementWebApp.Core.DTO;
 using SchoolManagementWebApp.Core.ServiceContracts;
+using SchoolManagementWebApp.Core.Services;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Security.Claims;
@@ -24,6 +25,7 @@ namespace SchoolManagementWebApp.UI.Controllers
 		private readonly ICourseGetterService _courseGetterService;
         private readonly IAssignmentGetterService _assignmentGetterService;
 		private readonly UserManager<ApplicationUser> _userManager;
+		private readonly IFileService _fileService;
 
 		public Func<string> GetUserId { get; set; }
 
@@ -35,7 +37,8 @@ namespace SchoolManagementWebApp.UI.Controllers
 			IEditCourseMessageService editCourseMessageService,
 			ICourseGetterService courseGetterService,
 			IAssignmentGetterService assignmentGetterService,
-			UserManager<ApplicationUser> userManager
+			UserManager<ApplicationUser> userManager,
+			IFileService fileService
 			)
 		{
 			_courseAdderService = courseAdderService;
@@ -46,6 +49,7 @@ namespace SchoolManagementWebApp.UI.Controllers
 			_courseGetterService = courseGetterService;
 			_assignmentGetterService = assignmentGetterService;
 			_userManager = userManager;
+			_fileService = fileService;
 
 			GetUserId = () => User.FindFirstValue(ClaimTypes.NameIdentifier);
 		}
@@ -77,22 +81,31 @@ namespace SchoolManagementWebApp.UI.Controllers
         public async Task<IActionResult> Course(Guid courseId)
 		{
 			// Get the logged in userId
-			//Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
 			Guid userId = Guid.Parse(GetUserId());
 
 			CourseResponse response = await _courseGetterService.GetCourseByCourseId(courseId);
 
-			if (response.Assignments != null)
+			// Check if the current logged in user is the teacher of the course
+			if (response.TeacherId == userId)
 			{
-                // Get the assignment of the user
-                foreach (Assignment assignment in response.Assignments)
-                {
-                    if (assignment.StudentId == userId)
-                    {
-                        ViewData["userAssignment"] = assignment;
-                    }
-                }
-            }
+				ViewData["isTeacher"] = "true";
+			} else
+			{
+				ViewData["isTeacher"] = "false";
+
+				// Check if current logged in user has an assignment for this course
+				if (response.Assignments != null)
+				{
+					// Get the assignment of the user
+					foreach (Assignment assignment in response.Assignments)
+					{
+						if (assignment.StudentId == userId)
+						{
+							ViewData["userAssignment"] = assignment;
+						}
+					}
+				}
+			}
 
             ViewData["pageTitle"] = response.CourseName;
 			ViewData["Course"] = response;
@@ -117,27 +130,8 @@ namespace SchoolManagementWebApp.UI.Controllers
         [Authorize(Roles = "Admin,Teacher")]
         public async Task<IActionResult> EditCourse(EditCourseRequest editCourseRequest, IFormFile formFile)
 		{
-			// Read the file and upload it to the UploadedFiles folder
-            string path = "";
-            try
-            {
-                if (formFile.Length > 0)
-                {
-                    path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles"));
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                    using (var fileStream = new FileStream(Path.Combine(path, formFile.FileName), FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(fileStream);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("File Copy Failed", ex);
-            }
+
+			await _fileService.UploadFile(formFile);
 
 			// Add Filename to editCourseRequest
 			editCourseRequest.CourseFileName = formFile.FileName;
@@ -189,32 +183,11 @@ namespace SchoolManagementWebApp.UI.Controllers
         public async Task<IActionResult> SubmitAssignment(AssignmentAddRequest assignmentAddRequest, IFormFile assignmentFile)
 		{
             // Get the logged in userId
-            //Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
 			Guid userId = Guid.Parse(GetUserId());
 
 			assignmentAddRequest.StudentId = userId;
 
-            // Read the file and upload it to the UploadedFiles folder
-            string path = "";
-			try
-			{
-                if (assignmentFile.Length > 0)
-                {
-                    path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles"));
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-					}
-                    using (var fileStream = new FileStream(Path.Combine(path, assignmentFile.FileName), FileMode.Create))
-                    {
-						await assignmentFile.CopyToAsync(fileStream);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("File Copy Failed", ex);
-            }
+			await _fileService.UploadFile(assignmentFile);		
 
             // Add Filename to editCourseRequest
             assignmentAddRequest.AssignmentFileName = assignmentFile.FileName;

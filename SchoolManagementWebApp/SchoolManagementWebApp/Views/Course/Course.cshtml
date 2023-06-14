@@ -1,12 +1,17 @@
 ﻿@{
     Layout = "~/Views/Shared/_NavLayout.cshtml";
+
     CourseResponse course = (CourseResponse)ViewData["Course"];
     ViewBag.CurrentUrl = String.Format("~/course/{0}", course.CourseId);
+
     Assignment assignment = null;
     if (ViewData["userAssignment"] != null)
     {
         assignment = (Assignment)ViewData["userAssignment"];
     }
+
+    // For some reason does not accept boolean values?
+    string isTeacher = (string)ViewData["isTeacher"];
 }
 
 @*Section for rendering page css file in layout view*@ 
@@ -27,7 +32,7 @@
         <a class="button-link" href="~/download/@course.CourseFileName">Download File</a>
     </div>
     <div class="course-info-buttons-container">
-        @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+        @if (User.IsInRole("Admin") || isTeacher == "true")
         {
             <a class="button-link" href="~/editcourse/@course.CourseId">Edit Course</a>
             <a class="button-link" href="~/createmessage/@course.CourseId">Create Message</a>

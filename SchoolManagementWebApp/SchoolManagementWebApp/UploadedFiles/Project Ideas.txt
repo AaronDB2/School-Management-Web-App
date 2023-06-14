@@ -1,0 +1,80 @@
+Web Dev Projects
+
+CV website
+Persoonlijke Sport records website
+Persoonlijk dashboard voor mezelf
+Course website
+Blog
+Learn website
+
+Game Dev Projects
+
+Memory game
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+LANGUAGE DEV
+
+1. Javascript advanced
+2. c# moderate
+
+DEV TOOLS
+
+1. Git basics
+
+LEARNED WEB DEV
+1. HTML5 advanced
+2. CSS advanced
+3. SASS good
+4. Javascript advanced
+5. Node moderate
+
+LEARNED GAME DEV
+1. Unity

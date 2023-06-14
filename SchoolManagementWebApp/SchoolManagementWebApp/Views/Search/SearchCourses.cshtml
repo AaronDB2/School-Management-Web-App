@@ -38,7 +38,7 @@
 				<td>
 					<form action="~/enrollstudent" method="post">
 						<input type="hidden" id="course-id" name="CourseId" value=@course.CourseId>
-							<input type="hidden" id="student-id" name="StudentId" value="a4c49e3b-17c4-4ad9-2673-08db62bc841a">
+							<input type="hidden" id="student-id" name="StudentId" value="@ViewData["UserId"]">
 						<input type="submit" value="Enroll">
 					</form>
 				</td>
