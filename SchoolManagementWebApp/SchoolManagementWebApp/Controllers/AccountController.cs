@@ -5,6 +5,7 @@ using SchoolManagementWebApp.Core.Domain.Entities;
 using SchoolManagementWebApp.Core.Domain.IdentityEntities;
 using SchoolManagementWebApp.Core.Domain.RepositoryContracts;
 using SchoolManagementWebApp.Core.DTO;
+using SchoolManagementWebApp.Core.ServiceContracts;
 using System.Security.Claims;
 
 namespace SchoolManagementWebApp.UI.Controllers
@@ -14,16 +15,15 @@ namespace SchoolManagementWebApp.UI.Controllers
     {
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
+		private readonly ICourseGetterService _courseGetterService;
 
 		public Func<string> GetUserId { get; set; }
 
-		private readonly ICoursesRepository _coursesRepository;
-
-		public AccountController(UserManager<ApplicationUser> userManager, ICoursesRepository coursesRepository, SignInManager<ApplicationUser> signInManager)
+		public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ICourseGetterService courseGetterService)
 		{
 			_userManager = userManager;
-			_coursesRepository = coursesRepository;
 			_signInManager = signInManager;
+			_courseGetterService = courseGetterService;
 
 			GetUserId = () => User.FindFirstValue(ClaimTypes.NameIdentifier);
 		}
@@ -89,7 +89,6 @@ namespace SchoolManagementWebApp.UI.Controllers
 		{
             // Get the logged in userId
 			var userId = GetUserId();
-            //string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
 			ApplicationUser user = await _userManager.FindByIdAsync(userId);
 
@@ -212,7 +211,20 @@ namespace SchoolManagementWebApp.UI.Controllers
 			// TODO: Check when user is null
 
 			// Get course from data store with given course id
-			Course course = await _coursesRepository.GetCourseByCourseId(enrollStudentRequest.CourseId);
+			CourseResponse courseResponse = await _courseGetterService.GetCourseByCourseId(enrollStudentRequest.CourseId);
+
+			// Convert courseResponse to course
+			Course course = new Course()
+			{
+				CourseId = courseResponse.CourseId,
+				CourseName = courseResponse.CourseName,
+				Message = courseResponse.CourseMessage,
+				CourseText = courseResponse.CourseText,
+				CourseFileName = courseResponse.CourseFileName,
+				Assignments = courseResponse.Assignments,
+				TeacherId = courseResponse.TeacherId,
+				Students = courseResponse.Students,
+			};
 
 			// TODO: Check when course is null
 
@@ -222,7 +234,6 @@ namespace SchoolManagementWebApp.UI.Controllers
 			IdentityResult result = await _userManager.UpdateAsync(user);
 
 			// TODO: what to do when failed
-			// TODO: redirect to enrolled course
 
 			return RedirectToAction("Course", "Course", new { courseId = course.CourseId } );
 		}

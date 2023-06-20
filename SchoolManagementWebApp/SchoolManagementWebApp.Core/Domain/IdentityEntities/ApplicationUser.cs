@@ -17,8 +17,7 @@ namespace SchoolManagementWebApp.Core.Domain.IdentityEntities
 		public ICollection<Course> CoursesTeached { get; set; }
 
 		//Needed for many to many relationship with Course entity
-		//public int Id { get; set; }
 		[InverseProperty("Students")]
-		public List<Course> Courses { get; } = new();
+		public List<Course> Courses { get; set; } = new();
 	}
 }

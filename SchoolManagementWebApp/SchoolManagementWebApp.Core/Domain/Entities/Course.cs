@@ -32,6 +32,6 @@ namespace SchoolManagementWebApp.Core.Domain.Entities
 		public ApplicationUser Teacher { get; set; }
 
 		//Needed for many to many relationship with ApplicationUser entity
-		public List<ApplicationUser> Students { get; } = new();
+		public List<ApplicationUser> Students { get; set; } = new();
 	}
 }

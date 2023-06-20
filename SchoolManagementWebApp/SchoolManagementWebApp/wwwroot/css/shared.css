@@ -38,6 +38,11 @@ body {
     display: block;
 }
 
+.button-link:hover,
+.button-link:active {
+    background-color: #161a24
+}
+
 .body-nogrid {
     display: block;
 }

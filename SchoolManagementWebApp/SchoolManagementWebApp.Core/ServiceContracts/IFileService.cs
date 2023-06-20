@@ -17,10 +17,11 @@ namespace SchoolManagementWebApp.Core.ServiceContracts
 		/// <returns>The file that wil be downloaded</returns>
 		FileStream Download(string fileName);
 
-		/// <summary>
-		/// Uploads file to UploadedFiles map
-		/// </summary>
-		/// <param name="assignmentFile">File to be uploaded</param>
-		Task<bool> UploadFile(IFormFile assignmentFile);
+        /// <summary>
+        /// Uploads file to UploadedFiles map
+        /// </summary>
+        /// <param name="assignmentFile">File to be uploaded</param>
+        /// <returns>True if upload went correct otherwise false</returns>
+        Task<bool> UploadFile(IFormFile assignmentFile);
 	}
 }

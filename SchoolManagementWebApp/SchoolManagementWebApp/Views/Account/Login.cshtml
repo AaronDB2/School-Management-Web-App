@@ -8,24 +8,26 @@
 	<link rel="stylesheet" type="text/css" href="css/login.css">
 }
 
-<div class="login__container">
-	<h1>Login</h1>
-	<form class="login__container-form" asp-route-ReturnUrl="@Context.Request.Query["ReturnUrl"]" asp-action="Login" asp-controller="Account" methd="post">
-		<label for="useremail">Email:</label>
-		<input type="email" id="useremail" name="Email"/>
-	    <label for="password">Password:</label>
-		<input type="password" id="password" name="Password"/>
-		<input type="submit" value="Login"/>
-	</form>
-	@*Error display code*@
-	@{
-		@Html.ValidationMessage("Login")
-		if (ViewBag.Errors != null)
-		{
-			foreach (var error in ViewBag.Errors)
+<div class="login__container-flex">
+	<div class="login__container">
+		<h1>Login</h1>
+		<form class="login__container-form" asp-route-ReturnUrl="@Context.Request.Query["ReturnUrl"]" asp-action="Login" asp-controller="Account" methd="post">
+			<label for="useremail">Email:</label>
+			<input type="email" id="useremail" name="Email"/>
+			<label for="password">Password:</label>
+			<input type="password" id="password" name="Password"/>
+			<input class="button-link" type="submit" value="Login"/>
+		</form>
+		@*Error display code*@
+		@{
+			@Html.ValidationMessage("Login")
+			if (ViewBag.Errors != null)
 			{
-				<p>@error</p>
+				foreach (var error in ViewBag.Errors)
+				{
+					<p>@error</p>
+				}
 			}
 		}
-	}
+	</div>
 </div>

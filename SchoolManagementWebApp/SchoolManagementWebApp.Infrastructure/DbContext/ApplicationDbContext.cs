@@ -27,8 +27,6 @@ namespace SchoolManagementWebApp.Infrastructure.DbContext
 			builder.Entity<Assignment>().ToTable("Assignments");
 			builder.Entity<Course>().ToTable("Courses");
 
-
-			//builder.Entity<IdentityUserRole<string>>().HasNoKey();
 			// Disables cascade delete in database for all relations
 			foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
 			{

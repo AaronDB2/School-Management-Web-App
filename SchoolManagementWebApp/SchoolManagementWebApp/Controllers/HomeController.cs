@@ -11,14 +11,14 @@ namespace SchoolManagementWebApp.UI.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ICourseGetterService _courseGetterService;
-		private readonly IFileService _downloadService;
+		private readonly IFileService _fileService;
 
 		public Func<string> GetUserId { get; set; }
 
-		public HomeController(ICourseGetterService courseGetterService, IFileService downloadService) 
+		public HomeController(ICourseGetterService courseGetterService, IFileService fileService) 
 		{ 
 			_courseGetterService = courseGetterService;
-			_downloadService = downloadService;
+			_fileService = fileService;
 
 			GetUserId = () => User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -61,7 +61,7 @@ namespace SchoolManagementWebApp.UI.Controllers
 		[Authorize(Roles = "Admin,Student,Teacher")]
 		public async Task<IActionResult> Download(string fileName)
 		{
-			var stream = _downloadService.Download(fileName);
+			var stream = _fileService.Download(fileName);
 
 			return File(stream, "application/octet-stream", fileName);
 		}
