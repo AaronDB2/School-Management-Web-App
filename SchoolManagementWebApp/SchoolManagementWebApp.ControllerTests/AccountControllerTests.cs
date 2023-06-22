@@ -5,6 +5,7 @@ using Moq;
 using SchoolManagementWebApp.Core.Domain.Entities;
 using SchoolManagementWebApp.Core.Domain.IdentityEntities;
 using SchoolManagementWebApp.Core.Domain.RepositoryContracts;
+using SchoolManagementWebApp.Core.ServiceContracts;
 using SchoolManagementWebApp.Infrastructure.Repositories;
 using SchoolManagementWebApp.UI.Controllers;
 using System.Security.Claims;
@@ -15,11 +16,11 @@ namespace SchoolManagementWebApp.ControllerTests
     {
 		private readonly AccountController _accountController;
 
-		private readonly Mock<ICoursesRepository> _coursesRepositoryMock;
+		private readonly Mock<ICourseGetterService> _courseGetterServiceMock;
 		private readonly Mock<UserManager<ApplicationUser>> _userManagerMock;
 		private readonly Mock<SignInManager<ApplicationUser>> _signInManagerMock;
 
-		private readonly ICoursesRepository _coursesRepository;
+		private readonly ICourseGetterService _courseGetterService;
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
 
@@ -28,8 +29,8 @@ namespace SchoolManagementWebApp.ControllerTests
 			// Mock
 			var userStore = new Mock<IUserStore<ApplicationUser>>();
 
-			_coursesRepositoryMock = new Mock<ICoursesRepository>();
-			_coursesRepository = _coursesRepositoryMock.Object;
+			_courseGetterServiceMock = new Mock<ICourseGetterService>();
+			_courseGetterService = _courseGetterServiceMock.Object;
 
 			_userManagerMock = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
 			_userManager = _userManagerMock.Object;
@@ -37,7 +38,7 @@ namespace SchoolManagementWebApp.ControllerTests
 			_signInManagerMock = new Mock<SignInManager<ApplicationUser>>(_userManager, Mock.Of<IHttpContextAccessor>(), Mock.Of<IUserClaimsPrincipalFactory<ApplicationUser>>(), null, null, null, null);
 			_signInManager = _signInManagerMock.Object;	
 
-			_accountController = new AccountController(_userManager, _coursesRepository, _signInManager);
+			_accountController = new AccountController(_userManager, _signInManager, _courseGetterService);
 
 			// Sets the GetUserId method to always return a userId. Did this so that i dont need to mock principle claim stuff
 			_accountController.GetUserId = () => "FEDDD9F4-1C6C-43B2-B9D3-672AB82CB2C6";
