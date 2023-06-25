@@ -8,6 +8,7 @@ using SchoolManagementWebApp.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +18,7 @@ namespace SchoolManagementWebApp.ServiceTests
 	{
 		private readonly IAssignmentAdderService _assignmentAdderService;
 		private readonly IUpdateGradeService _updateGradeService;
+		private readonly IAssignmentGetterService _assignmentGetterService;
 
 		private readonly Mock<IAssignmentRepository> _assignmentsRepositoryMock;
 		private readonly IAssignmentRepository _assignmentsRepository;
@@ -29,7 +31,9 @@ namespace SchoolManagementWebApp.ServiceTests
 			// Initialize services
 			_assignmentAdderService = new AssignmentAdderService(_assignmentsRepository);
 			_updateGradeService = new UpdateGradeService(_assignmentsRepository);
+			_assignmentGetterService = new AssignmentGetterService(_assignmentsRepository);
 		}
+
 		[Fact]
 		public async Task AddAssignment_AssignmentNull_ToBeArgumentNullException()
 		{
@@ -47,7 +51,7 @@ namespace SchoolManagementWebApp.ServiceTests
 		}
 
 		[Fact]
-		public async Task AddAssignment_AssignmentDetailComplete_ToBeSuccessful()
+		public async Task AddAssignment_AssignmentDetailComplete_ToBeSuccessfull()
 		{
 			//Arrange
 			AssignmentAddRequest? assignmentAddRequest = new AssignmentAddRequest()
@@ -93,7 +97,7 @@ namespace SchoolManagementWebApp.ServiceTests
 		}
 
 		[Fact]
-		public async Task UpdateAssignmentGrade_UpdateGradeRequestDetailsComplete_ToBeSuccessful()
+		public async Task UpdateAssignmentGrade_UpdateGradeRequestDetailsComplete_ToBeSuccessfull()
 		{
 			//Arrange
 			UpdateGradeRequest? updateGradeRequest = new UpdateGradeRequest() 
@@ -127,6 +131,34 @@ namespace SchoolManagementWebApp.ServiceTests
 
 			//Assert
 			response.Grade.Should().Be(10);
+		}
+
+		[Fact]
+		public async Task GetFilterdAssignments_SearchByStudentId_ToBeSuccessfull()
+		{
+			//Arrange
+			Assignment assignment = new Assignment()
+			{
+				AssignmentFileName = "Test.pdf",
+				AssignmentID = Guid.NewGuid(),
+				CourseId = Guid.NewGuid(),
+				StudentId = Guid.NewGuid(),
+				Grade = 0
+			};
+
+			List<Assignment> assignments = new List<Assignment>() { assignment };
+
+			//Mock GetFilterdAssignments method from AssignmentRepository 
+			_assignmentsRepositoryMock.Setup
+			 (temp => temp.GetFilterdAssignments(It.IsAny<Expression<Func<Assignment, bool>>>()))
+			 .ReturnsAsync(assignments);
+
+			//Act
+			List<AssignmentResponse> response = await _assignmentGetterService.GetFilterdAssignments("StudentId", assignment.CourseId.ToString());
+
+			//Assert
+			response.Should().NotBeNull();
+			response[0].CourseId.Should().Be(assignment.CourseId);
 		}
 	}
 }

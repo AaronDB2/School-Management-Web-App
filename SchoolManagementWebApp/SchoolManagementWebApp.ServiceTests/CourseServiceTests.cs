@@ -66,7 +66,7 @@ namespace SchoolManagementWebApp.ServiceTests
 		}
 
 		[Fact]
-		public async Task AddCourse_CourseDetailComplete_ToBeSuccessful()
+		public async Task AddCourse_CourseDetailComplete_ToBeSuccessfull()
 		{
 			//Arrange
 			CourseAddRequest? courseAddRequest = new CourseAddRequest()
@@ -111,7 +111,7 @@ namespace SchoolManagementWebApp.ServiceTests
 		}
 
 		[Fact]
-		public async Task EditCourse_EditCourseRequestFullDetails_ToBeSuccessful()
+		public async Task EditCourse_EditCourseRequestFullDetails_ToBeSuccessfull()
 		{
 			//Arrange
 			EditCourseRequest? editCourseRequest = new EditCourseRequest()
@@ -165,7 +165,7 @@ namespace SchoolManagementWebApp.ServiceTests
 		}
 
 		[Fact]
-		public async Task EditCourseMessage_EditCourseMessageRequestFullDetails_ToBeSuccessful()
+		public async Task EditCourseMessage_EditCourseMessageRequestFullDetails_ToBeSuccessfull()
 		{
 			//Arrange
 			EditCourseMessageRequest? editCourseMessageRequest = new EditCourseMessageRequest()
